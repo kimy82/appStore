@@ -1,0 +1,20 @@
+Logfile initialized
+[INFO] logfile = C:\Users\kim\Documents\Titanium_Studio_Workspace\AppStore\build.log
+[INFO] logfile = C:\Users\kim\Documents\Titanium_Studio_Workspace\AppStore\build.log
+[DEBUG] C:\Users\kim\AppData\Roaming\Titanium\mobilesdk\win32\3.1.3.GA\android\builder.py emulator AppStore C:\Users\kim\android-sdk C:\Users\kim\Documents\Titanium_Studio_Workspace\AppStore com.alexmany.appstore 8 WVGA854 armeabi-v7a
+[DEBUG] C:\Users\kim\AppData\Roaming\Titanium\mobilesdk\win32\3.1.3.GA\android\builder.py simulator AppStore C:\Users\kim\android-sdk C:\Users\kim\Documents\Titanium_Studio_Workspace\AppStore com.alexmany.appstore 8 WVGA854
+[INFO] Launching Android emulator...one moment
+[DEBUG] From: C:\Users\kim\android-sdk\tools\emulator.exe
+[DEBUG] SDCard: C:\Users\kim\.titanium\android2.sdcard
+[INFO] Building AppStore for Android ... one moment
+[DEBUG] AVD ID: 8
+[DEBUG] AVD Skin: WVGA854
+[DEBUG] AVD ABI: armeabi-v7a
+[DEBUG] SDK: C:\Users\kim\android-sdk
+[INFO] plugin=C:\Users\kim\AppData\Roaming\Titanium\plugins\ti.alloy\1.0\plugin.py
+[INFO] Detected compiler plugin: ti.alloy/1.0
+[INFO] Titanium SDK version: 3.1.3 (09/18/13 12:00 222f4d1)
+[DEBUG] Waiting for device to be ready ...
+[TRACE] adb devices returned 0 devices/emulators
+[DEBUG] C:\Users\kim\android-sdk\tools\emulator.exe -avd titanium_8_WVGA854 -port 5560 -sdcard "C:\Users\kim\.titanium\titanium_8_WVGA854.sdcard" -logcat *:d,*,TiAPI:V -no-boot-anim -partition-size 128
+[INFO] Android Emulator has exited

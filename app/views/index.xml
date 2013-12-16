@@ -1,0 +1,7 @@
+<Alloy>
+	<Window class="container" >
+		<Label id="userLabel" ></Label>
+		<Button id="createAccount" top="0" width="Ti.UI.SIZE" onClick="indexWindow.openCreateAccount" />
+		
+	</Window>
+</Alloy>

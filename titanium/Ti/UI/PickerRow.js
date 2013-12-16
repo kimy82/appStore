@@ -1,0 +1,1 @@
+define(["Ti/_/declare","Ti/_/UI/FontWidget","Ti/UI"],function(t,e,i){return t("Ti.UI.PickerRow",e,{constructor:function(){this._addStyleableDomNode(this.domNode)},_defaultWidth:i.SIZE,_defaultHeight:i.SIZE,properties:{title:{post:function(){this._parentColumn&&this._parentColumn._updateContentDimensions()}}}})});

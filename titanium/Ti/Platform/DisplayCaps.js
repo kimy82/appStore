@@ -1,0 +1,1 @@
+define(["Ti/_","Ti/_/Evented","Ti/_/lang"],function(e,t,n){var i=navigator.userAgent.toLowerCase(),r=n.setObject("Ti.Platform.DisplayCaps",t,{constants:{density:function(){switch(i){case"iphone":return"medium";case"ipad":return"medium";default:return""}},dpi:e.dpi,platformHeight:window.innerHeight,platformWidth:window.innerWidth}});return Ti.Platform.displayCaps=r});
