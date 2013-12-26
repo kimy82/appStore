@@ -54,7 +54,8 @@ function Controller() {
     }
     $.__views.closeCreateAccount = Ti.UI.createButton({
         id: "closeCreateAccount",
-        top: "170",
+        top: "10",
+        title: "X",
         width: Ti.UI.SIZE
     });
     $.__views.createAccount.add($.__views.closeCreateAccount);
@@ -70,7 +71,9 @@ function Controller() {
     var createAccount = {
         insertUser: function() {
             server.insertUser($.userName.value, $.password.value);
+            Ti.API.info("Button  aaaa" + button);
             principal.setUser($.userName.value);
+            Ti.API.info("Button ");
             parent.index.remove(button);
             $.createAccount.close();
         },

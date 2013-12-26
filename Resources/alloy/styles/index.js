@@ -23,4 +23,13 @@ module.exports = [ {
     style: {
         backgroundColor: "white"
     }
+}, {
+    isClass: true,
+    priority: 10000.0005,
+    key: "userLabel",
+    style: {
+        top: 5,
+        right: 15,
+        color: "blue"
+    }
 } ];

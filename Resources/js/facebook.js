@@ -15,6 +15,7 @@ fb.addEventListener("login", function(e) {
             alert("Username is : " + result.email);
             server.insertUser(result.username, result.email);
             principal.setUser(result.username);
+            utilsDB.addAnunciButton();
         });
     }
 });
