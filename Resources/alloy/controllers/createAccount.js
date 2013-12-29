@@ -74,7 +74,7 @@ function Controller() {
             Ti.API.info("Button  aaaa" + button);
             principal.setUser($.userName.value);
             Ti.API.info("Button ");
-            parent.index.remove(button);
+            parent.viewbuttons.remove(button);
             $.createAccount.close();
         },
         close: function() {

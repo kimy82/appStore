@@ -5,7 +5,6 @@ var controlDB = {
         this._self = this;
     },
     populateDB: function() {
-        db.execute("DROP TABLE IF EXISTS USER");
         db.execute("CREATE TABLE IF NOT EXISTS USER (id,name,password)");
     },
     saveUser: function(id, name, password) {
@@ -39,7 +38,6 @@ var _executionsDB = {
         var rows = db.execute(query);
         user._init();
         while (rows.isValidRow()) {
-            Ti.API.info("Person ---> ROWID: ");
             user.name = rows.fieldByName("name");
             user.password = rows.fieldByName("password");
             user.id = rows.fieldByName("id");
@@ -78,7 +76,6 @@ utilsDB = {
     },
     addAnunciButton: function() {
         var userInDB = _executionsDB.getUser();
-        alert(userInDB.id);
         if ("" != userInDB.id) {
             var buttonFoto = Titanium.UI.createButton({
                 title: "Foto",
@@ -88,11 +85,13 @@ utilsDB = {
                 height: 50
             });
             buttonFoto.addEventListener("click", function() {
-                Titanium.API.info("You clicked the button");
-                var win = Alloy.createController("addAnunci").getView();
+                var win = Alloy.createController("addAnunci", {
+                    parent: utilsDB.wind
+                }).getView();
                 win.open();
             });
-            utilsDB.wind.index.add(buttonFoto);
+            utilsDB.wind.viewbuttons.add(buttonFoto);
+            principal.setUser(userInDB.name);
         }
     }
 };

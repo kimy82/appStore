@@ -1,5 +1,6 @@
 <Alloy>
 	<Window class="container" >
+		<Button id="closeCreateAnunci" top="10" title="X" width="Ti.UI.SIZE" onClick="anunci.close" />
 		
 		<TextField id="titol" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="#336699" top="10" left="10" width="250" height="60" />
 		<TextField id="descripcio" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="#336699" top="70" left="10" width="250" height="60" />

@@ -11,6 +11,18 @@ function Controller() {
         id: "addAnunci"
     });
     $.__views.addAnunci && $.addTopLevelView($.__views.addAnunci);
+    $.__views.closeCreateAnunci = Ti.UI.createButton({
+        id: "closeCreateAnunci",
+        top: "10",
+        title: "X",
+        width: Ti.UI.SIZE
+    });
+    $.__views.addAnunci.add($.__views.closeCreateAnunci);
+    try {
+        $.__views.closeCreateAnunci.addEventListener("click", anunci.close);
+    } catch (e) {
+        __defers["$.__views.closeCreateAnunci!click!anunci.close"] = true;
+    }
     $.__views.titol = Ti.UI.createTextField({
         id: "titol",
         borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
@@ -91,14 +103,49 @@ function Controller() {
     exports.destroy = function() {};
     _.extend($, $.__views);
     var args = arguments[0] || {};
-    args.parent;
+    var parent = args.parent;
     var anunci = {
         _init: function(ip) {
             anunci.id = "null";
             anunci.ipserver = ip;
         },
         save: function() {
-            server.saveAnunci($.titol.value, $.descripcio.value, $.preu.value, anunci.id);
+            var url = "http://" + server.ip + "/rest/service/userService/saveAnunci?titol=" + $.titol.value + "&descripcio=" + $.descripcio.value + "&preu=" + $.preu.value + "&idAnunci=" + anunci.id;
+            var client = Ti.Network.createHTTPClient({
+                onload: function() {
+                    Titanium.API.info(this.responseText);
+                    var data = this.responseText;
+                    var jdata = JSON.parse(data);
+                    if ("ok" == jdata.ok) {
+                        Ti.UI.createAlertDialog({
+                            message: "Guardat",
+                            ok: "Okay",
+                            title: "L'anunci s'ha guardat"
+                        }).show();
+                        anunci.id = jdata.id;
+                    } else Ti.UI.createAlertDialog({
+                        message: "Error en el registre",
+                        ok: "KO",
+                        title: "Anunci no s'ha pogut finalitzar"
+                    }).show();
+                },
+                onerror: function(e) {
+                    Ti.API.debug(e.error);
+                    Ti.UI.createAlertDialog({
+                        message: "Error en el registre",
+                        ok: "KO",
+                        title: "El registre no s'ha pogut finalitzar"
+                    }).show();
+                },
+                timeout: 5e3
+            });
+            client.open("GET", url);
+            client.send();
+        },
+        close: function() {
+            anunci.id = "null";
+            parent.refreshscrollview.fireEvent("click");
+            $.addAnunci.close();
         },
         addFotoFromGalery: function() {
             Titanium.Media.openPhotoGallery({
@@ -197,12 +244,13 @@ function Controller() {
         Ti.API.info("near bottom", view.getRect().height - e.y <= scroll.getRect().height + tolerance);
     });
     $.fotosView.add(scrollFotosAnunci);
-    anunci._init("192.168.1.74:8080");
+    anunci._init("192.168.1.74:8080/AppStore");
     $.addAnunci.backgroundColor = "#CCCCCC";
     $.saveAnunci.setTitle("guarda");
     $.addFotoFromGaleria.setTitle("add Galeria");
     $.addFotoFromCamera.setTitle("add Camera");
     $.addAnunci.open();
+    __defers["$.__views.closeCreateAnunci!click!anunci.close"] && $.__views.closeCreateAnunci.addEventListener("click", anunci.close);
     __defers["$.__views.saveAnunci!click!anunci.save"] && $.__views.saveAnunci.addEventListener("click", anunci.save);
     __defers["$.__views.addFotoFromGaleria!click!anunci.addFotoFromGalery"] && $.__views.addFotoFromGaleria.addEventListener("click", anunci.addFotoFromGalery);
     __defers["$.__views.addFotoFromCamera!click!anunci.addFotoFromCamera"] && $.__views.addFotoFromCamera.addEventListener("click", anunci.addFotoFromCamera);

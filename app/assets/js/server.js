@@ -1,6 +1,10 @@
 var server = {
+	_init: function(ip){
+		server.ip=ip;
+		server.init=0;
+	},
 	insertUser : function(userName,password) {
-		var url = "http://10.0.2.2:8080/rest/service/userService/insert?user=" + userName+ "&pass=" + md5(password);
+		var url = "http://"+server.ip+"/rest/service/userService/insert?user=" + userName+ "&pass=" + md5(password);
 		var client = Ti.Network.createHTTPClient({
 			// function called when the response data is available
 			onload : function(e) {
@@ -10,7 +14,8 @@ var server = {
 				var jdata = JSON.parse(data);
 				if (jdata.ok == 'ok') {		
 					//Guarda user a la BD del device			
-					controlDB.saveUser(userName, md5(password));
+					controlDB.saveUser(jdata.id,userName, md5(password));
+					utilsDB.addAnunciButton();
 					Ti.UI.createAlertDialog({
 						message : 'Registra\'t',
 						ok : 'Okay',
@@ -34,6 +39,5 @@ var server = {
 		client.open("GET", url);
 		// Send the request.
 		client.send();
-	},
-	
+	},	
 };

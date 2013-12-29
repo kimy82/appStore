@@ -1,11 +1,16 @@
 var principal = {
 		win: null ,
-		_init: function(win){
-			this.win= win;
+		buttonRegistre: null,
+		buttonFacebook: null,
+		_init: function(win,buttonRegistre,buttonFacebook){
+			this.win = win;
+			this.buttonRegistre = buttonRegistre;
+			this.buttonFacebook = buttonFacebook;
 		},
 		setUser: function(user){						
 			principal.win.userLabel.setText(user);		
-			principal.win.index.remove(principal.win.createAccount);				
+			principal.win.viewbuttons.remove(principal.buttonRegistre);
+			principal.win.viewbuttons.remove(principal.buttonFacebook);						
 	},
 		
 };

@@ -1,7 +1,12 @@
 <Alloy>
 	<Window class="container" >
-		<Label id="userLabel" ></Label>
-		<Button id="createAccount" top="0" width="Ti.UI.SIZE" onClick="indexWindow.openCreateAccount" />
 		
+		<Label id="userLabel" class="userLabel" ></Label>
+		<View  height="300" layout="horizontal" top="0"  id="viewbuttons" ></View>
+		<ScrollView height="700" width="Ti.UI.FILL" showVerticalScrollIndicator="true" showHorizontalScrollIndicator="false" contentHeight="auto" contentWidth="auto" top="300" id="viewAnuncis" >			
+			<View id="view" backgroundColor="#336699" borderRadius="10" top="10" layout="vertical" height="auto" width="1000" />
+		</ScrollView>
+				
+		<Button id="refreshscrollview" onClick="indexWindow.refreshAnuncis" ></Button>
 	</Window>
 </Alloy>

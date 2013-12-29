@@ -1,38 +1,84 @@
 var args = arguments[0] || {};
 var parent = args.parent;
 
-
 var anunci = {
 	_init: function(ip){
 		anunci.id='null';
 		anunci.ipserver=ip;
 	},
+	setAnunciId: function(id){
+		anunci.id=id;
+	},
+	showMessage: function(message,ok,title){
+		Ti.UI.createAlertDialog({
+			message : message,
+			ok : ok,
+			title : title
+		}).show();
+		
+	},
 	save: function(){			
-		server.saveAnunci($.titol.value, $.descripcio.value,$.preu.value,anunci.id );													
+	
+		var url = "http://"+server.ip+"/rest/service/userService/saveAnunci?titol=" +$.titol.value+ "&descripcio=" +$.descripcio.value+"&preu="+$.preu.value+"&idAnunci="+anunci.id;
+							var client = Ti.Network.createHTTPClient({
+								// function called when the response data is available
+								onload : function(e) {
+									
+									var data = this.responseText;
+									var jdata = JSON.parse(data);
+									if (jdata.ok == 'ok') {		
+										//Actualitza id de l'anunci i mostra missatge
+										anunci.showMessage('Guardat','OK','L\'anunci s\'ha guardat');		
+										anunci.setAnunciId(jdata.id);																																			
+									}else{
+										anunci.showMessage('Error en el registre','KO','L\'anunci no s\'ha guardat');										
+									}
+								},
+								// function called when an error occurs, including a timeout
+								onerror : function(e) {
+									anunci.showMessage('Error en el registre','KO','L\'anunci no s\'ha guardat');
+								},
+								timeout : 5000 // in milliseconds
+							});
+							// Prepare the connection.
+							client.open("GET", url);
+							// Send the request.
+							client.send();												
+	},
+	close : function(){
+		//posem id anunci a null i actualitzem l'scroll d'anuncis
+		anunci.setAnunciId('null');
+		parent.refreshscrollview.fireEvent("click");
+		$.addAnunci.close();
+	},
+	createImageView: function(event){
+		
+		return Ti.UI.createImageView({
+								width:100,
+								height:100,
+								image:event.media
+							  });			
 	},
 	addFotoFromGalery: function(){				
 					
 					Titanium.Media.openPhotoGallery({
 					 
 					    success:function(event)
-					    {
-					        Ti.API.info("success! event: " + JSON.stringify(event));
+					    {					        
 					        var image = event.media;
 					 
 					        var xhr = Titanium.Network.createHTTPClient();
 					 
 					        xhr.onerror = function(e)
 					        {
-					            Ti.API.info('IN ERROR ' + e.error);
+					            anunci.showMessage('Error','KO','La foto no s\'ha cargat');
 					        };
 					        xhr.onload = function()
-					        {
-
-					            Ti.API.info('IN ONLOAD......................... '+this.responseText+'......'+ this.status + ' readyState ' + this.readyState);
+					        {					           
 					            var data = this.responseText;
                 				var jdata = JSON.parse(data);
                 				if ("ok" == jdata.ok) {
-                					anunci.id = jdata.id;
+        							anunci.setAnunciId(jdata.id);                					
                 				}
 					            
 					        };
@@ -49,15 +95,8 @@ var anunci = {
 					        
 					        xhr.setRequestHeader("contentType", "multipart/form-data");					       
 					        xhr.send({file:image});
-					        var imageView = Ti.UI.createImageView({
-												width:100,
-												height:100,
-												image:event.media
-											});
-
-					        Ti.API.info('IN ONLOAD.....................................SENDED ');
-					        $.fotosView.add(imageView);
-					 
+					        var imageView = anunci.createImageView(event); 
+					        $.fotosView.add(imageView);					 
 					    },
 					    cancel:function()
 					    {
@@ -72,33 +111,23 @@ var anunci = {
 	addFotoFromCamera: function(){
 				Titanium.Media.showCamera({
 									success:function(event) {
-										// called when media returned from the camera
-										Ti.API.debug('Our type was: '+event.mediaType);
+										// called when media returned from the camera										
 										if(event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO) {
-											var imageView = Ti.UI.createImageView({
-												width:100,
-												height:100,
-												image:event.media
-											});
 											
-											Ti.API.info("success! event: " + JSON.stringify(event));
-									        var image = event.media;
-									 
+											var imageView  = anunci.createImageView(event);																															      									 
 									        var xhr = Titanium.Network.createHTTPClient();
 									 
 									        xhr.onerror = function(e)
 									        {
-									            Ti.API.info('IN ERROR ' + e.error);
+									     		anunci.showMessage('Error','KO','La foto no s\'ha cargat');
 									        };
 									        xhr.onload = function()
-									        {
-									            Ti.API.info('IN ONLOAD......................... '+this.responseText+'......'+ this.status + ' readyState ' + this.readyState);
+									        {									            
 									            var data = this.responseText;
 				                				var jdata = JSON.parse(data);
-				                				//alert(jdata);
-				                				if ("ok" == jdata.ok) {
-				                					//alert(jdata.id);	
-				                					anunci.id = jdata.id;
+				                				
+				                				if ("ok" == jdata.ok) {				                				
+				                					anunci.setAnunciId(jdata.id);				                				
 				                				}
 									        };
 									        xhr.onsendstream = function(e)
@@ -113,11 +142,10 @@ var anunci = {
 									   		xhr.setRequestHeader("contentType", "multipart/form-data");
 									        // send the data
 									        user =_executionsDB.getUser();
-									        xhr.send({file:image});
-									        
+									        xhr.send({file:image});									        
 									        $.fotosView.add(imageView);
 										} else {
-											alert("got the wrong type back ="+event.mediaType);
+											anunci.showMessage('Error','KO',"got the wrong type back ="+event.mediaType);
 										}
 									},
 									cancel:function() {
@@ -140,7 +168,6 @@ var anunci = {
 	}
 };
 
-
 //Scroll view for fotos
 var scrollFotosAnunci = Ti.UI.createScrollView({
     contentHeight: 100,
@@ -150,23 +177,11 @@ var scrollFotosAnunci = Ti.UI.createScrollView({
     showVerticalScrollIndicator: false,    
     width: Ti.UI.FILL
 });
-scrollFotosAnunci.addEventListener('scroll', function (e) {
-    var tolerance = 50;
-    Ti.API.info('near bottom', (view.getRect().height - e.y) <= (scroll.getRect().height + tolerance));
-});
-
-
-
-
 
 $.fotosView.add(scrollFotosAnunci);
 //fi scroll view
 
-    
-
-
-
-anunci._init('192.168.1.74:8080');
+anunci._init('192.168.1.74:8080/AppStore');
 $.addAnunci.backgroundColor="#CCCCCC";
 $.saveAnunci.setTitle('guarda');
 $.addFotoFromGaleria.setTitle('add Galeria');

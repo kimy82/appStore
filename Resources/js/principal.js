@@ -9,7 +9,7 @@ var principal = {
     },
     setUser: function(user) {
         principal.win.userLabel.setText(user);
-        principal.win.index.remove(principal.buttonRegistre);
-        principal.win.index.remove(principal.buttonFacebook);
+        principal.win.viewbuttons.remove(principal.buttonRegistre);
+        principal.win.viewbuttons.remove(principal.buttonFacebook);
     }
 };
