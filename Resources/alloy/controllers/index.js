@@ -83,7 +83,18 @@ function Controller() {
     buttonRegistre.addEventListener("click", function() {
         indexWindow.openCreateAccount();
     });
-    principal._init($, buttonRegistre, button);
+    var buttonLogout = Titanium.UI.createButton({
+        title: "Log out",
+        top: 10,
+        right: 10,
+        width: Ti.UI.SIZE,
+        height: 50,
+        id: "buttonRegistre"
+    });
+    buttonLogout.addEventListener("click", function() {
+        indexWindow.logOut();
+    });
+    principal._init($, buttonRegistre, button, buttonLogout);
     Ti.include("/js/dataBase.js");
     Ti.include("/js/network.js");
     utilsDB._init($);
@@ -172,6 +183,11 @@ function Controller() {
         changeUserData: function() {
             var win = Alloy.createController("changeUserData").getView();
             win.open();
+        },
+        logOut: function() {
+            controlDB.deleteUser();
+            var activity = Titanium.Android.currentActivity;
+            activity.finish();
         }
     };
     indexWindow._init("192.168.1.74:8080/AppStore");

@@ -19,7 +19,23 @@ buttonRegistre.addEventListener('click',function(e)
 });
 //////////////////
 
-principal._init($,buttonRegistre,button);
+//Butoon de logout
+var buttonLogout = Titanium.UI.createButton({
+   title: 'Log out',
+   top: 10,
+   right:10,
+   width: Ti.UI.SIZE,
+   height: 50,
+   id: 'buttonRegistre'
+});
+
+buttonLogout.addEventListener('click',function(e)
+{
+   indexWindow.logOut();
+});
+//////////////////
+
+principal._init($,buttonRegistre,button,buttonLogout);
 
 Ti.include("/js/dataBase.js");
 Ti.include("/js/network.js");
@@ -123,6 +139,12 @@ var indexWindow ={
 		var win=Alloy.createController('changeUserData').getView();
 		win.open();		
 	},
+	logOut: function(){
+		
+		controlDB.deleteUser();
+		var activity = Titanium.Android.currentActivity;
+		activity.finish();
+	}
 };
 
 //Inicialitzem el server i el controlador de la pantalla

@@ -43,6 +43,7 @@ var _executionsDB = {
 		var query = 'DELETE FROM USER WHERE 1=1';
 		//alert("delete");
 		db.execute(query);
+		
 	},
 	getUser: function(){//recuper usuari de la BBDD del client. Si no existeix retorna un user buit
 		var query = 'SELECT * FROM USER WHERE 1=1';
