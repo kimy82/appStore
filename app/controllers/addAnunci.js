@@ -141,6 +141,8 @@ var anunci = {
 									        xhr.open('POST','http://'+anunci.ipserver+'/rest/service/userService/uploadFoto?idAnunci='+anunci.id+'&idUser='+user.id);
 									   		xhr.setRequestHeader("contentType", "multipart/form-data");
 									        // send the data
+									        var image = event.media;
+					 
 									        user =_executionsDB.getUser();
 									        xhr.send({file:image});									        
 									        $.fotosView.add(imageView);
