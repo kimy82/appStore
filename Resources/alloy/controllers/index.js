@@ -1,26 +1,4 @@
 function Controller() {
-    function createScrollView(json) {
-        var img, intImage = 0, intImages = json.length;
-        for (intImage = 0; intImages > intImage; intImage += 1) {
-            img = Ti.UI.createImageView({
-                height: 96,
-                image: json[intImage].path,
-                left: 8,
-                top: 8,
-                width: 96
-            });
-            var label = Ti.UI.createLabel({
-                text: json[intImage].titol
-            });
-            $.view.add(label);
-            $.view.add(img);
-        }
-        setTimeout(function() {
-            $.view.remove(labelLoading);
-            $.view.remove(imgLoading);
-            loading = false;
-        }, 1e3);
-    }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "index";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
@@ -43,6 +21,11 @@ function Controller() {
         id: "userLabel"
     });
     $.__views.index.add($.__views.userLabel);
+    try {
+        $.__views.userLabel.addEventListener("click", indexWindow.changeUserData);
+    } catch (e) {
+        __defers["$.__views.userLabel!click!indexWindow.changeUserData"] = true;
+    }
     $.__views.viewbuttons = Ti.UI.createView({
         height: "300",
         layout: "horizontal",
@@ -104,16 +87,19 @@ function Controller() {
     Ti.include("/js/dataBase.js");
     Ti.include("/js/network.js");
     utilsDB._init($);
-    if (isNetwork()) $.index.open(); else {
-        var win = Alloy.createController("noInternet").getView();
-        win.open();
-    }
     var indexWindow = {
         _init: function(ip) {
             indexWindow.ip = ip;
             indexWindow.init = 0;
+            indexWindow._controlNetwork();
         },
         init: 0,
+        _controlNetwork: function() {
+            if (isNetwork()) $.index.open(); else {
+                var win = Alloy.createController("noInternet").getView();
+                win.open();
+            }
+        },
         openCreateAccount: function() {
             var win = Alloy.createController("createAccount", {
                 parent: $
@@ -128,10 +114,9 @@ function Controller() {
                     var data = this.responseText;
                     var jdata = JSON.parse(data);
                     indexWindow.init = indexWindow.init + 20;
-                    createScrollView(jdata);
+                    indexWindow.createScrollView(jdata);
                 },
-                onerror: function(e) {
-                    Ti.API.debug(e.error);
+                onerror: function() {
                     Ti.UI.createAlertDialog({
                         message: "Error en el registre",
                         ok: "KO",
@@ -147,6 +132,46 @@ function Controller() {
             $.view.removeAllChildren();
             indexWindow.init = 0;
             indexWindow.getAnuncis();
+        },
+        createScrollView: function(json) {
+            var img, intImage = 0, intImages = json.length;
+            for (intImage = 0; intImages > intImage; intImage += 1) {
+                img = Ti.UI.createImageView({
+                    height: 96,
+                    image: json[intImage].path,
+                    left: 8,
+                    top: 8,
+                    width: 96
+                });
+                var label = Ti.UI.createLabel({
+                    text: json[intImage].titol
+                });
+                $.view.add(label);
+                $.view.add(img);
+            }
+            setTimeout(function() {
+                $.view.remove(labelLoading);
+                $.view.remove(imgLoading);
+                loading = false;
+            }, 1e3);
+        },
+        initLabelLoading: function() {
+            return Ti.UI.createLabel({
+                text: "LOADING.................................."
+            });
+        },
+        initImageLoading: function() {
+            return Ti.UI.createImageView({
+                height: 96,
+                image: "/images/loading.gif",
+                left: 8,
+                top: 8,
+                width: 500
+            });
+        },
+        changeUserData: function() {
+            var win = Alloy.createController("changeUserData").getView();
+            win.open();
         }
     };
     indexWindow._init("192.168.1.74:8080/AppStore");
@@ -156,19 +181,9 @@ function Controller() {
     utilsDB.addAnunciButton();
     $.refreshscrollview.hide();
     var loading = false;
-    var labelLoading = Ti.UI.createLabel({
-        text: "LOADING.................................."
-    });
-    var imgLoading = Ti.UI.createImageView({
-        height: 96,
-        image: "/images/loading.gif",
-        left: 8,
-        top: 8,
-        width: 500
-    });
+    var labelLoading = indexWindow.initLabelLoading();
+    var imgLoading = indexWindow.initImageLoading();
     $.viewAnuncis.addEventListener("scroll", function(e) {
-        var tolerance = 50;
-        console.log("near bottom", $.index.getRect().height - e.y <= $.view.getRect().height + tolerance);
         if (e.y >= $.view.getRect().height - 700 && false == loading) {
             loading = true;
             $.view.add(labelLoading);
@@ -176,6 +191,7 @@ function Controller() {
             indexWindow.getAnuncis();
         }
     });
+    __defers["$.__views.userLabel!click!indexWindow.changeUserData"] && $.__views.userLabel.addEventListener("click", indexWindow.changeUserData);
     __defers["$.__views.refreshscrollview!click!indexWindow.refreshAnuncis"] && $.__views.refreshscrollview.addEventListener("click", indexWindow.refreshAnuncis);
     _.extend($, exports);
 }

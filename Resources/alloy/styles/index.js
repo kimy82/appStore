@@ -1,6 +1,6 @@
 module.exports = [ {
     isApi: true,
-    priority: 1000.0003,
+    priority: 1000.0007,
     key: "Label",
     style: {
         width: Ti.UI.SIZE,
@@ -9,7 +9,7 @@ module.exports = [ {
     }
 }, {
     isApi: true,
-    priority: 1000.0004,
+    priority: 1000.0008,
     key: "Button",
     style: {
         title: "Foobar",
@@ -18,14 +18,14 @@ module.exports = [ {
     }
 }, {
     isClass: true,
-    priority: 10000.0002,
+    priority: 10000.0006,
     key: "container",
     style: {
         backgroundColor: "white"
     }
 }, {
     isClass: true,
-    priority: 10000.0005,
+    priority: 10000.0009,
     key: "userLabel",
     style: {
         top: 5,

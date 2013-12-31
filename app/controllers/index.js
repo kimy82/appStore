@@ -119,6 +119,10 @@ var indexWindow ={
 						        width: 500
 						    });
 	},
+	changeUserData: function(){
+		var win=Alloy.createController('changeUserData').getView();
+		win.open();		
+	},
 };
 
 //Inicialitzem el server i el controlador de la pantalla

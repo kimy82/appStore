@@ -11,20 +11,18 @@ function Controller() {
         id: "addAnunci"
     });
     $.__views.addAnunci && $.addTopLevelView($.__views.addAnunci);
-    $.__views.closeCreateAnunci = Ti.UI.createButton({
-        id: "closeCreateAnunci",
-        top: "10",
-        title: "X",
-        width: Ti.UI.SIZE
+    $.__views.__alloyId0 = Ti.UI.createLabel({
+        width: Ti.UI.SIZE,
+        height: Ti.UI.SIZE,
+        color: "blue",
+        top: "0",
+        text: "Afegeix un anunci",
+        id: "__alloyId0"
     });
-    $.__views.addAnunci.add($.__views.closeCreateAnunci);
-    try {
-        $.__views.closeCreateAnunci.addEventListener("click", anunci.close);
-    } catch (e) {
-        __defers["$.__views.closeCreateAnunci!click!anunci.close"] = true;
-    }
+    $.__views.addAnunci.add($.__views.__alloyId0);
     $.__views.titol = Ti.UI.createTextField({
         id: "titol",
+        hintText: "Titol",
         borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
         color: "#336699",
         top: "10",
@@ -35,6 +33,7 @@ function Controller() {
     $.__views.addAnunci.add($.__views.titol);
     $.__views.descripcio = Ti.UI.createTextField({
         id: "descripcio",
+        hintText: "Descripció",
         borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
         color: "#336699",
         top: "70",
@@ -45,9 +44,10 @@ function Controller() {
     $.__views.addAnunci.add($.__views.descripcio);
     $.__views.preu = Ti.UI.createTextField({
         id: "preu",
+        hintText: "Preu",
         borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
         color: "#336699",
-        top: "140",
+        top: "130",
         left: "10",
         width: "250",
         height: "60"
@@ -91,6 +91,19 @@ function Controller() {
     } catch (e) {
         __defers["$.__views.addFotoFromCamera!click!anunci.addFotoFromCamera"] = true;
     }
+    $.__views.closeCreateAnunci = Ti.UI.createButton({
+        id: "closeCreateAnunci",
+        top: "190",
+        left: "380",
+        title: "X",
+        width: Ti.UI.SIZE
+    });
+    $.__views.addAnunci.add($.__views.closeCreateAnunci);
+    try {
+        $.__views.closeCreateAnunci.addEventListener("click", anunci.close);
+    } catch (e) {
+        __defers["$.__views.closeCreateAnunci!click!anunci.close"] = true;
+    }
     $.__views.fotosView = Ti.UI.createView({
         id: "fotosView",
         top: "300",
@@ -109,33 +122,29 @@ function Controller() {
             anunci.id = "null";
             anunci.ipserver = ip;
         },
+        setAnunciId: function(id) {
+            anunci.id = id;
+        },
+        showMessage: function(message, ok, title) {
+            Ti.UI.createAlertDialog({
+                message: message,
+                ok: ok,
+                title: title
+            }).show();
+        },
         save: function() {
             var url = "http://" + server.ip + "/rest/service/userService/saveAnunci?titol=" + $.titol.value + "&descripcio=" + $.descripcio.value + "&preu=" + $.preu.value + "&idAnunci=" + anunci.id;
             var client = Ti.Network.createHTTPClient({
                 onload: function() {
-                    Titanium.API.info(this.responseText);
                     var data = this.responseText;
                     var jdata = JSON.parse(data);
                     if ("ok" == jdata.ok) {
-                        Ti.UI.createAlertDialog({
-                            message: "Guardat",
-                            ok: "Okay",
-                            title: "L'anunci s'ha guardat"
-                        }).show();
-                        anunci.id = jdata.id;
-                    } else Ti.UI.createAlertDialog({
-                        message: "Error en el registre",
-                        ok: "KO",
-                        title: "Anunci no s'ha pogut finalitzar"
-                    }).show();
+                        anunci.showMessage("Guardat", "OK", "L'anunci s'ha guardat");
+                        anunci.setAnunciId(jdata.id);
+                    } else anunci.showMessage("Error en el registre", "KO", "L'anunci no s'ha guardat");
                 },
-                onerror: function(e) {
-                    Ti.API.debug(e.error);
-                    Ti.UI.createAlertDialog({
-                        message: "Error en el registre",
-                        ok: "KO",
-                        title: "El registre no s'ha pogut finalitzar"
-                    }).show();
+                onerror: function() {
+                    anunci.showMessage("Error en el registre", "KO", "L'anunci no s'ha guardat");
                 },
                 timeout: 5e3
             });
@@ -143,24 +152,29 @@ function Controller() {
             client.send();
         },
         close: function() {
-            anunci.id = "null";
+            anunci.setAnunciId("null");
             parent.refreshscrollview.fireEvent("click");
             $.addAnunci.close();
+        },
+        createImageView: function(event) {
+            return Ti.UI.createImageView({
+                width: 100,
+                height: 100,
+                image: event.media
+            });
         },
         addFotoFromGalery: function() {
             Titanium.Media.openPhotoGallery({
                 success: function(event) {
-                    Ti.API.info("success! event: " + JSON.stringify(event));
                     var image = event.media;
                     var xhr = Titanium.Network.createHTTPClient();
-                    xhr.onerror = function(e) {
-                        Ti.API.info("IN ERROR " + e.error);
+                    xhr.onerror = function() {
+                        anunci.showMessage("Error", "KO", "La foto no s'ha cargat");
                     };
                     xhr.onload = function() {
-                        Ti.API.info("IN ONLOAD......................... " + this.responseText + "......" + this.status + " readyState " + this.readyState);
                         var data = this.responseText;
                         var jdata = JSON.parse(data);
-                        "ok" == jdata.ok && (anunci.id = jdata.id);
+                        "ok" == jdata.ok && anunci.setAnunciId(jdata.id);
                     };
                     xhr.onsendstream = function() {};
                     xhr.setTimeout(1e4);
@@ -170,12 +184,7 @@ function Controller() {
                     xhr.send({
                         file: image
                     });
-                    var imageView = Ti.UI.createImageView({
-                        width: 100,
-                        height: 100,
-                        image: event.media
-                    });
-                    Ti.API.info("IN ONLOAD.....................................SENDED ");
+                    var imageView = anunci.createImageView(event);
                     $.fotosView.add(imageView);
                 },
                 cancel: function() {},
@@ -186,24 +195,16 @@ function Controller() {
         addFotoFromCamera: function() {
             Titanium.Media.showCamera({
                 success: function(event) {
-                    Ti.API.debug("Our type was: " + event.mediaType);
                     if (event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO) {
-                        var imageView = Ti.UI.createImageView({
-                            width: 100,
-                            height: 100,
-                            image: event.media
-                        });
-                        Ti.API.info("success! event: " + JSON.stringify(event));
-                        var image = event.media;
+                        var imageView = anunci.createImageView(event);
                         var xhr = Titanium.Network.createHTTPClient();
-                        xhr.onerror = function(e) {
-                            Ti.API.info("IN ERROR " + e.error);
+                        xhr.onerror = function() {
+                            anunci.showMessage("Error", "KO", "La foto no s'ha cargat");
                         };
                         xhr.onload = function() {
-                            Ti.API.info("IN ONLOAD......................... " + this.responseText + "......" + this.status + " readyState " + this.readyState);
                             var data = this.responseText;
                             var jdata = JSON.parse(data);
-                            "ok" == jdata.ok && (anunci.id = jdata.id);
+                            "ok" == jdata.ok && anunci.setAnunciId(jdata.id);
                         };
                         xhr.onsendstream = function() {};
                         xhr.setTimeout(1e4);
@@ -215,7 +216,7 @@ function Controller() {
                             file: image
                         });
                         $.fotosView.add(imageView);
-                    } else alert("got the wrong type back =" + event.mediaType);
+                    } else anunci.showMessage("Error", "KO", "got the wrong type back =" + event.mediaType);
                 },
                 cancel: function() {},
                 error: function(error) {
@@ -239,10 +240,6 @@ function Controller() {
         showVerticalScrollIndicator: false,
         width: Ti.UI.FILL
     });
-    scrollFotosAnunci.addEventListener("scroll", function(e) {
-        var tolerance = 50;
-        Ti.API.info("near bottom", view.getRect().height - e.y <= scroll.getRect().height + tolerance);
-    });
     $.fotosView.add(scrollFotosAnunci);
     anunci._init("192.168.1.74:8080/AppStore");
     $.addAnunci.backgroundColor = "#CCCCCC";
@@ -250,10 +247,10 @@ function Controller() {
     $.addFotoFromGaleria.setTitle("add Galeria");
     $.addFotoFromCamera.setTitle("add Camera");
     $.addAnunci.open();
-    __defers["$.__views.closeCreateAnunci!click!anunci.close"] && $.__views.closeCreateAnunci.addEventListener("click", anunci.close);
     __defers["$.__views.saveAnunci!click!anunci.save"] && $.__views.saveAnunci.addEventListener("click", anunci.save);
     __defers["$.__views.addFotoFromGaleria!click!anunci.addFotoFromGalery"] && $.__views.addFotoFromGaleria.addEventListener("click", anunci.addFotoFromGalery);
     __defers["$.__views.addFotoFromCamera!click!anunci.addFotoFromCamera"] && $.__views.addFotoFromCamera.addEventListener("click", anunci.addFotoFromCamera);
+    __defers["$.__views.closeCreateAnunci!click!anunci.close"] && $.__views.closeCreateAnunci.addEventListener("click", anunci.close);
     _.extend($, exports);
 }
 

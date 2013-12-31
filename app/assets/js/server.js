@@ -3,8 +3,8 @@ var server = {
 		server.ip=ip;
 		server.init=0;
 	},
-	insertUser : function(userName,password) {
-		var url = "http://"+server.ip+"/rest/service/userService/insert?user=" + userName+ "&pass=" + md5(password);
+	insertUser : function(userName,password,lat,lon) {
+		var url = "http://"+server.ip+"/rest/service/userService/insert?user=" + userName+ "&pass=" + md5(password)+"&lat="+lat+"&lon="+lon;
 		var client = Ti.Network.createHTTPClient({
 			// function called when the response data is available
 			onload : function(e) {
