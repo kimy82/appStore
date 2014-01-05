@@ -1,5 +1,8 @@
 var args = arguments[0] || {};
 var parent = args.parent;
+var map = args.map;
+
+
 
 var anunci = {
 	_init: function(ip){
@@ -18,8 +21,8 @@ var anunci = {
 		
 	},
 	save: function(){			
-	
-		var url = "http://"+server.ip+"/rest/service/userService/saveAnunci?titol=" +$.titol.value+ "&descripcio=" +$.descripcio.value+"&preu="+$.preu.value+"&idAnunci="+anunci.id;
+		var user =_executionsDB.getUser();
+		var url = "http://"+server.ip+"/rest/service/userService/saveAnunci?titol=" +$.titol.value+ "&descripcio=" +$.descripcio.value+"&preu="+$.preu.value+"&idAnunci="+anunci.id+"&lon="+geo.longitude+"&lat="+geo.latitude+"&iduser="+user.getId();
 							var client = Ti.Network.createHTTPClient({
 								// function called when the response data is available
 								onload : function(e) {
@@ -49,6 +52,8 @@ var anunci = {
 		//posem id anunci a null i actualitzem l'scroll d'anuncis
 		anunci.setAnunciId('null');
 		parent.refreshscrollview.fireEvent("click");
+		
+		$.mapViewAnunci.remove(map);
 		$.addAnunci.close();
 	},
 	createImageView: function(event){
@@ -167,7 +172,12 @@ var anunci = {
 									allowEditing:true,
 									mediaTypes:[Ti.Media.MEDIA_TYPE_PHOTO]
 								});
-	}
+	},
+	showGeo: function(){
+		$.explicamapa.setHtml("Mou el mapa fins a cercar el teu punt");
+		
+		$.mapViewAnunci.add(map);
+	},
 };
 
 //Scroll view for fotos
@@ -183,7 +193,7 @@ var scrollFotosAnunci = Ti.UI.createScrollView({
 $.fotosView.add(scrollFotosAnunci);
 //fi scroll view
 
-anunci._init('192.168.1.74:8080/AppStore');
+anunci._init('192.168.1.65:8080/AppStore');
 $.addAnunci.backgroundColor="#CCCCCC";
 $.saveAnunci.setTitle('guarda');
 $.addFotoFromGaleria.setTitle('add Galeria');

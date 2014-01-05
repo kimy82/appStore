@@ -2,7 +2,10 @@
 	<Window class="container" >
 		
 		<Label id="userLabel" class="userLabel" onClick="indexWindow.changeUserData" ></Label>
-		<View  height="300" layout="horizontal" top="0"  id="viewbuttons" ></View>
+		<View  height="300" layout="horizontal" top="0"  id="viewbuttons" >
+			<TextField id="distance" ></TextField>
+			<Button id="search" title="busca" onClick="indexWindow.searchAnuncis" ></Button>
+		</View>
 		<ScrollView height="700" width="Ti.UI.FILL" showVerticalScrollIndicator="true" showHorizontalScrollIndicator="false" contentHeight="auto" contentWidth="auto" top="300" id="viewAnuncis" >			
 			<View id="view" backgroundColor="#336699" borderRadius="10" top="10" layout="vertical" height="auto" width="1000" />
 		</ScrollView>

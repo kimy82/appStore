@@ -70,9 +70,10 @@ var user = {
 var utilsDB = {};
 
 utilsDB = {
-    _init: function(win) {
+    _init: function(win, map) {
         console.log("OBJECT" + utilsDB);
         utilsDB.wind = win;
+        utilsDB.map = map;
     },
     addAnunciButton: function() {
         var userInDB = _executionsDB.getUser();
@@ -86,13 +87,23 @@ utilsDB = {
             });
             buttonFoto.addEventListener("click", function() {
                 var win = Alloy.createController("addAnunci", {
-                    parent: utilsDB.wind
+                    parent: utilsDB.wind,
+                    map: utilsDB.map
                 }).getView();
                 win.open();
             });
             utilsDB.wind.viewbuttons.add(buttonFoto);
             principal.setUser(userInDB.name);
         }
+    }
+};
+
+var geo = {
+    latitude: "",
+    longitude: "",
+    setGeoPoint: function(lat, lon) {
+        geo.latitude = lat;
+        geo.longitude = lon;
     }
 };
 

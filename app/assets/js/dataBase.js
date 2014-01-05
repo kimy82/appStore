@@ -85,9 +85,10 @@ var user = {
 var utilsDB={};
 
 utilsDB = {
-	_init: function(win){
+	_init: function(win,map){
 		console.log("OBJECT"+utilsDB);
 		utilsDB.wind =win;
+		utilsDB.map = map;
 	},
 	addAnunciButton: function(){
 		 var userInDB = _executionsDB.getUser();
@@ -102,7 +103,7 @@ utilsDB = {
 			buttonFoto.addEventListener('click',function(e){
    													//alert("utils"+utilsDB.wind);
    													
-   													var win = Alloy.createController('addAnunci', {parent: utilsDB.wind}).getView();
+   													var win = Alloy.createController('addAnunci', {parent: utilsDB.wind,map: utilsDB.map}).getView();
 													win.open();	
 								});
 								
@@ -112,6 +113,15 @@ utilsDB = {
 		}		
 	},
 	
+};
+
+var geo = {
+	latitude: "",
+	longitude: "",
+	setGeoPoint: function(lat,lon){
+		geo.latitude = lat;
+		geo.longitude = lon;		
+	},
 };
 user._init();
 controlDB._init();
