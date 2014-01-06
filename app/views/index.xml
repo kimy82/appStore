@@ -7,7 +7,7 @@
 			<Button id="search" title="busca" onClick="indexWindow.searchAnuncis" ></Button>
 		</View>
 		<ScrollView height="700" width="Ti.UI.FILL" showVerticalScrollIndicator="true" showHorizontalScrollIndicator="false" contentHeight="auto" contentWidth="auto" top="300" id="viewAnuncis" >			
-			<View id="view" backgroundColor="#336699" borderRadius="10" top="10" layout="vertical" height="auto" width="1000" />
+			<TableView id="mainList" class="mainList"  />
 		</ScrollView>
 				
 		<Button id="refreshscrollview" onClick="indexWindow.refreshAnuncis" ></Button>

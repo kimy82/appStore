@@ -275,7 +275,7 @@ function Controller() {
         width: Ti.UI.FILL
     });
     $.fotosView.add(scrollFotosAnunci);
-    anunci._init("192.168.1.65:8080/AppStore");
+    anunci._init("192.168.1.70:8080/AppStore");
     $.addAnunci.backgroundColor = "#CCCCCC";
     $.saveAnunci.setTitle("guarda");
     $.addFotoFromGaleria.setTitle("add Galeria");

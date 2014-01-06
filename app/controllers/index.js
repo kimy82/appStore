@@ -2,7 +2,7 @@ Ti.include("/js/md5.js");
 Ti.include("/js/principal.js");
 Ti.include("/js/facebook.js");
 Ti.include("/js/server.js"); 
-server._init("192.168.1.65:8080/AppStore");
+server._init("192.168.1.70:8080/AppStore");
 
 //Butoon de registre
 var buttonRegistre = Titanium.UI.createButton({
@@ -93,41 +93,113 @@ var indexWindow ={
 							client.send();
 	},
 	refreshAnuncis:function(){
-		$.view.removeAllChildren();
+		$.mainList.removeAllChildren();
 		indexWindow.init=0;
 		indexWindow.getAnuncis();
 	},
 	searchAnuncis:function(){
-		$.view.removeAllChildren();
+		$.mainList.removeAllChildren();
 		indexWindow.initSearch=0;
 		indexWindow.searching=true;
 		indexWindow.getSearchAnuncis();
 	},
 	createScrollView: function(json){
+						var row = Ti.UI.createTableViewRow({
+							id:'listRow',
+							class:'listRow',
+						});
+						//
+						var viewRow = Ti.UI.createView({
+						  		id:'rowContainer',
+						  		class:'rowContainer',
+						});
+						
+						var viewTodos = Ti.UI.createView({
+						  		id:'todos',
+						  		class:'todos',
+						});
+						
+						var viewFoto = Ti.UI.createView({
+						  		id:'foto',
+						  		class:'foto',
+						});
+						
+						var viewtotm = Ti.UI.createView({
+						  		id:'totm',
+						  		class:'totm',
+						});
+						
+						var viewCon = Ti.UI.createView({
+						  		id:'con',
+						  		class:'con',
+						});
+						
+						var viewNews = Ti.UI.createView({
+						  		id:'news',
+						  		class:'news',
+						});
+						
+						var viewGreyLine = Ti.UI.createView({
+						  		id:'grayLine',
+						  		class:'grayLine',
+						});
+						
+						
+						
 						
 						var intImage = 0, intImages = json.length, img;
 						for (intImage = 0; intImage < intImages; intImage = intImage + 1) {
 						    img = Ti.UI.createImageView({
-						        height: 96,
-								image: json[intImage].path,
-						        left: 8,
-						        top: 8,
-						        width: 96
+						       id:'profilePic',
+						       class:'profilePic',
+						       image: json[intImage].path,
 						    });
 						    var image="";
 						    if(json[intImage].estat =="NEW"){
 						    	
 						    }
-						    var label = Ti.UI.createLabel({
-						    	text:json[intImage].titol+" "+json[intImage].estat,
-						    });						    												
-						    $.view.add(label);
-						    $.view.add(img);						 
+						    var labeltitol = Ti.UI.createLabel({
+						    	id:'profileName',
+						    	class:'profileName',
+						    	text:json[intImage].titol,
+						    });		
+						    var labeldescripcio = Ti.UI.createLabel({
+						    	id:'timeAgo',
+						    	class:'timeAgo',
+						    	text:json[intImage].descripcio,
+						    });	
+						    var labelSit = Ti.UI.createLabel({
+						    	id:'situacion',
+						    	class:'situacion',
+						    	text:json[intImage].titol,
+						    });	
+						    var labelPreu = Ti.UI.createLabel({
+						    	id:'price',
+						    	class:'price',
+						    	text:json[intImage].preu,
+						    });					    		
+						   										
+						    viewCon.add(labeltitol);
+						    viewCon.add(labeldescripcio);
+						    viewCon.add(labelSit);
+						    viewCon.add(labelPreu);
+
+							viewFoto.add(img);
+						    
+						    viewtotm.add(viewCon);
+						    viewtotm.add(viewNews);
+						    
+						    viewTodos.add(viewFoto);						    
+						    viewTodos.add(viewtotm);
+						    viewTodos.add(viewGreyLine);
+						    
+						    viewRow.add(viewTodos);
+						    $.mainList.add(viewRow);						 
 						}						
 						setTimeout(function(){
-							$.view.remove(labelLoading);
-							$.view.remove(imgLoading);				
-							loading=false;	
+							 $.mainList.remove(labelLoading);
+							 $.mainList.remove(imgLoading);				
+							 loading=false;	
 						},1000);									
 	},
 	createScrollViewSearch: function(json){
@@ -312,7 +384,7 @@ Titanium.Geolocation.addEventListener('location',function(){
 utilsDB._init($,mapview);
 
 //Inicialitzem el server i el controlador de la pantalla
-indexWindow._init("192.168.1.65:8080/AppStore");
+indexWindow._init("192.168.1.70:8080/AppStore");
 
 //carreguem anunicis a l'scroll view
 indexWindow.getAnuncis();

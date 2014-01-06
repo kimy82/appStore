@@ -9,15 +9,12 @@ function Controller() {
     var __defers = {};
     $.__views.index = Ti.UI.createWindow({
         backgroundColor: "white",
+        navBarHidden: true,
+        orientationModes: [ Ti.UI.PORTRAIT, Ti.UI.LANDSCAPE_LEFT, Ti.UI.LANDSCAPE_RIGHT, Ti.UI.UPSIDE_PORTRAIT ],
         id: "index"
     });
     $.__views.index && $.addTopLevelView($.__views.index);
     $.__views.userLabel = Ti.UI.createLabel({
-        width: Ti.UI.SIZE,
-        height: Ti.UI.SIZE,
-        color: "blue",
-        top: 5,
-        right: 15,
         id: "userLabel"
     });
     $.__views.index.add($.__views.userLabel);
@@ -38,10 +35,8 @@ function Controller() {
     });
     $.__views.viewbuttons.add($.__views.distance);
     $.__views.search = Ti.UI.createButton({
-        title: "busca",
-        top: 0,
-        width: Ti.UI.SIZE,
-        id: "search"
+        id: "search",
+        title: "busca"
     });
     $.__views.viewbuttons.add($.__views.search);
     try {
@@ -60,20 +55,16 @@ function Controller() {
         id: "viewAnuncis"
     });
     $.__views.index.add($.__views.viewAnuncis);
-    $.__views.view = Ti.UI.createView({
-        id: "view",
-        backgroundColor: "#336699",
-        borderRadius: "10",
-        top: "10",
-        layout: "vertical",
-        height: "auto",
-        width: "1000"
-    });
-    $.__views.viewAnuncis.add($.__views.view);
-    $.__views.refreshscrollview = Ti.UI.createButton({
-        title: "Foobar",
+    $.__views.mainList = Ti.UI.createTableView({
+        backgroundColor: "white",
+        separatorStyle: "NONE",
+        height: "85%",
         top: 0,
-        width: Ti.UI.SIZE,
+        widht: Ti.UI.FILL,
+        id: "mainList"
+    });
+    $.__views.viewAnuncis.add($.__views.mainList);
+    $.__views.refreshscrollview = Ti.UI.createButton({
         id: "refreshscrollview"
     });
     $.__views.index.add($.__views.refreshscrollview);
@@ -88,7 +79,7 @@ function Controller() {
     Ti.include("/js/principal.js");
     Ti.include("/js/facebook.js");
     Ti.include("/js/server.js");
-    server._init("192.168.1.65:8080/AppStore");
+    server._init("192.168.1.70:8080/AppStore");
     var buttonRegistre = Titanium.UI.createButton({
         title: "Registra 't",
         top: 10,
@@ -158,36 +149,93 @@ function Controller() {
             client.send();
         },
         refreshAnuncis: function() {
-            $.view.removeAllChildren();
+            $.mainList.removeAllChildren();
             indexWindow.init = 0;
             indexWindow.getAnuncis();
         },
         searchAnuncis: function() {
-            $.view.removeAllChildren();
+            $.mainList.removeAllChildren();
             indexWindow.initSearch = 0;
             indexWindow.searching = true;
             indexWindow.getSearchAnuncis();
         },
         createScrollView: function(json) {
+            Ti.UI.createTableViewRow({
+                id: "listRow",
+                "class": "listRow"
+            });
+            var viewRow = Ti.UI.createView({
+                id: "rowContainer",
+                "class": "rowContainer"
+            });
+            var viewTodos = Ti.UI.createView({
+                id: "todos",
+                "class": "todos"
+            });
+            var viewFoto = Ti.UI.createView({
+                id: "foto",
+                "class": "foto"
+            });
+            var viewtotm = Ti.UI.createView({
+                id: "totm",
+                "class": "totm"
+            });
+            var viewCon = Ti.UI.createView({
+                id: "con",
+                "class": "con"
+            });
+            var viewNews = Ti.UI.createView({
+                id: "news",
+                "class": "news"
+            });
+            var viewGreyLine = Ti.UI.createView({
+                id: "grayLine",
+                "class": "grayLine"
+            });
             var img, intImage = 0, intImages = json.length;
             for (intImage = 0; intImages > intImage; intImage += 1) {
                 img = Ti.UI.createImageView({
-                    height: 96,
-                    image: json[intImage].path,
-                    left: 8,
-                    top: 8,
-                    width: 96
+                    id: "profilePic",
+                    "class": "profilePic",
+                    image: json[intImage].path
                 });
                 "NEW" == json[intImage].estat;
-                var label = Ti.UI.createLabel({
-                    text: json[intImage].titol + " " + json[intImage].estat
+                var labeltitol = Ti.UI.createLabel({
+                    id: "profileName",
+                    "class": "profileName",
+                    text: json[intImage].titol
                 });
-                $.view.add(label);
-                $.view.add(img);
+                var labeldescripcio = Ti.UI.createLabel({
+                    id: "timeAgo",
+                    "class": "timeAgo",
+                    text: json[intImage].descripcio
+                });
+                var labelSit = Ti.UI.createLabel({
+                    id: "situacion",
+                    "class": "situacion",
+                    text: json[intImage].titol
+                });
+                var labelPreu = Ti.UI.createLabel({
+                    id: "price",
+                    "class": "price",
+                    text: json[intImage].preu
+                });
+                viewCon.add(labeltitol);
+                viewCon.add(labeldescripcio);
+                viewCon.add(labelSit);
+                viewCon.add(labelPreu);
+                viewFoto.add(img);
+                viewtotm.add(viewCon);
+                viewtotm.add(viewNews);
+                viewTodos.add(viewFoto);
+                viewTodos.add(viewtotm);
+                viewTodos.add(viewGreyLine);
+                viewRow.add(viewTodos);
+                $.mainList.add(viewRow);
             }
             setTimeout(function() {
-                $.view.remove(labelLoading);
-                $.view.remove(imgLoading);
+                $.mainList.remove(labelLoading);
+                $.mainList.remove(imgLoading);
                 loading = false;
             }, 1e3);
         },
@@ -340,7 +388,7 @@ function Controller() {
         indexWindow.geolocationInit();
     });
     utilsDB._init($, mapview);
-    indexWindow._init("192.168.1.65:8080/AppStore");
+    indexWindow._init("192.168.1.70:8080/AppStore");
     indexWindow.getAnuncis();
     $.viewbuttons.add(buttonRegistre);
     $.viewbuttons.add(button);

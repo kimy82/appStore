@@ -1,20 +1,186 @@
-".container": {
-	backgroundColor:"white"
+".container":{
+	backgroundColor:"white",
+	navBarHidden: true,
+	orientationModes: [Ti.UI.PORTRAIT,Ti.UI.LANDSCAPE_LEFT,Ti.UI.LANDSCAPE_RIGHT,Ti.UI.UPSIDE_PORTRAIT],
 },
-"Label": {
-	width: Ti.UI.SIZE,
-	height: Ti.UI.SIZE,
-	color: "#000"
-} 
-
-"Button":{
-    title: "Foobar",
+"#footer":{
+	width : Ti.UI.FILL,
+    height: "15%",
+    bottom: 0,
+    backgroundColor:"#4cd964",
+	layout: "horizontal"
+},
+"#top":{
+	width : Ti.UI.FILL,
+    height: Ti.UI.FILL,
     top: 0,
-    width: Ti.UI.SIZE
-}
+    backgroundColor:"yellow"
+},
+"#mainList":{
+	backgroundColor: "white",
+	separatorStyle: "NONE",
+	height: "85%",
+	top:0,
+	widht: Ti.UI.FILL,
+},
+"#listRow":{
+	height: "107dp",
+	selectionStyle: "NONE",
+	className:"listRow"
+},
 
-".userLabel":{
-	top:5,
-	right: 15,
-	color: "blue"
+"#rowContainer":{
+	height: "107dp",
+	width: Ti.UI.FILL,
+	backgroundColor: "#fff",
+	layout: "horizontal"
+},
+"#profilePic":{
+	 width:Ti.UI.FILL,
+	 image:"/1.jpg",
+	 width:"107dp"
+},
+"#profilePic2":{
+	 width:Ti.UI.FILL,
+	 image:"/2.jpg",
+	 width:"107dp"
+},
+"#profilePic3":{
+	 width:Ti.UI.FILL,
+	 image:"/3.jpg",
+	 width:"107dp"
+},
+"#profilePic4":{
+	 width:Ti.UI.FILL,
+	 image:"/4.jpg",
+	 width:"107dp"
+},
+"#con":{
+	left:0,
+	width:"99%",
+},
+"#news":{
+	width:"1%",
+	right:0,
+	backgroundColor:"#4cd964",
+},
+"#todos":{
+	width:Ti.UI.FILL,
+	left:0
+},
+"#totm":{
+	width:Ti.UI.FILL,
+	left:"107dp",
+},
+"#foto":{
+	width:"107dp",
+	backgroundColor:"#4cd964",
+	left:0
+	
+}
+"#profileName":{
+	top: 5,
+	left: 10,
+	color: "#333333",
+	font: {fontSize: "16dp", fontFamily: "RobotoCondensed-Bold"}
+},
+"#timeAgo":{
+	top: 28,
+	left: 10 ,
+	color: "#8e8e93",
+	font: {
+		fontSize : "14dp",
+		fontFamily: "Roboto-Light",
+	},
+},
+"#price":{
+	bottom: 5,
+	left: 10,
+	color: "#007aff",
+	font: {fontSize: "15dp", fontFamily: "RobotoCondensed-Bold"}
+},
+"#situacion":{
+	bottom: 30,
+	left: 10,
+	color: "#8e8e93",
+	font: {fontSize: "14dp", fontFamily: "Roboto-Light"}
+},
+"#status":{
+	width: Ti.UI.SIZE,
+	left: 5,
+	right: 5,
+	font: {
+		fontSize : "16dp"
+	}
+},
+"#bottomActions":{
+	bottom: 0,
+	height: "50dp",
+	width: Ti.UI.FILL,
+	backgroundColor: "#eff2f5",
+	layout: "horizontal"
+},
+".itemActionButton":{
+	width: "50%",
+	height: "50dp"
+},
+"#likeBtn":{
+	width: "76dp",
+	height: "20dp",
+	image: "/likebtn.png"
+},
+"#commentBtn":{
+	width: "76dp",
+	height: "20dp",
+	image: "/commentbtn.png"
+},
+"#statusBtn":{
+	width: "73dp",
+	height: "19dp",
+	image: "/statusbtn.png"
+},
+"#photoBtn":{
+	width: "73dp",
+	height: "19dp",
+	image: "/photobtn.png"
+},
+"#checkinBtn":{
+	width: "73dp",
+	height: "19dp",
+	image: "/checkinbtn.png"
+},
+"#menubtn":{
+	left: 0,
+	width: "55dp",
+	height: "54dp",
+	image:"/menubtn.png"
+},
+"#chatbtn":{
+	width: "55dp",
+	height: "54dp",
+	right: 0,
+	image:"/chatbtn.png"
+}
+'#labelia':{
+	right: 5,
+	color:"black"
+	
+}
+"#icone":{
+	width: Ti.UI.FILL,
+	
+	image: "/icone.png"
+},
+"#icone1":{
+	width: Ti.UI.FILL,
+	
+	image: "/icone.png"
+},
+"#icone2":{
+	width: Ti.UI.FILL,
+	
+	image: "/icone.png"
+},
+".tbButton":{
+	width: "33%",
 }
