@@ -1,4 +1,4 @@
 appStore
 ========
 
-App Store
+App Stores
