@@ -6,10 +6,24 @@
 			<TextField id="distance" ></TextField>
 			<Button id="search" title="busca" onClick="indexWindow.searchAnuncis" ></Button>
 		</View>
-		<ScrollView height="700" width="Ti.UI.FILL" showVerticalScrollIndicator="true" showHorizontalScrollIndicator="false" contentHeight="auto" contentWidth="auto" top="300" id="viewAnuncis" >			
-			<TableView id="mainList" class="mainList"  />
-		</ScrollView>
+					
+		<TableView id="mainList">
 				
-		<Button id="refreshscrollview" onClick="indexWindow.refreshAnuncis" ></Button>
+		</TableView>
+		<View id="footer">
+			<View class="tbButton">
+					<ImageView id="icone" onClick="testclick"></ImageView>
+				</View>
+				<View  class="tbButton">
+					<ImageView id="icone1" onClick="testclick"></ImageView>
+				</View>
+				<View  class="tbButton">
+					<ImageView id="icone2" onClick="testclick"></ImageView>
+				</View>
+		</View>
+		<View  height="10" layout="horizontal" top="0"  id="viewrefreshscrollview" >
+			<Button id="refreshscrollview" onClick="indexWindow.refreshAnuncis"></Button>
+		</View>
+		
 	</Window>
 </Alloy>

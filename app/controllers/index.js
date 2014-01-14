@@ -2,7 +2,7 @@ Ti.include("/js/md5.js");
 Ti.include("/js/principal.js");
 Ti.include("/js/facebook.js");
 Ti.include("/js/server.js"); 
-server._init("192.168.1.70:8080/AppStore");
+server._init("192.168.1.72:8080/AppStore");
 
 //Butoon de registre
 var buttonRegistre = Titanium.UI.createButton({
@@ -13,11 +13,9 @@ var buttonRegistre = Titanium.UI.createButton({
    id: 'buttonRegistre'
 });
 
-buttonRegistre.addEventListener('click',function(e)
-{
+buttonRegistre.addEventListener('click',function(e){
    indexWindow.openCreateAccount();
 });
-//////////////////
 
 //Butoon de logout
 var buttonLogout = Titanium.UI.createButton({
@@ -47,6 +45,7 @@ var indexWindow ={
 		indexWindow.ip=ip;
 		indexWindow.init=0;
 		indexWindow.initSearch=0;
+		indexWindow.numAnuncis=0;
 		indexWindow.searching=false;
 		indexWindow._controlNetwork();
 	},
@@ -66,16 +65,17 @@ var indexWindow ={
 			win.open();
 	},	
 	getAnuncis: function(){
+							
+							
 							var url = "http://"+indexWindow.ip+"/rest/service/userService/getAnuncis?init="+indexWindow.init;
 							var client = Ti.Network.createHTTPClient({
 								// function called when the response data is available
 								onload : function(e) {
 									Titanium.API.info(this.responseText);					
 									var data = this.responseText;
-									var jdata = JSON.parse(data);
-									
-										indexWindow.init= indexWindow.init+20;										
-										indexWindow.createScrollView(jdata);																			
+									var jdata = JSON.parse(data);									
+									indexWindow.init= indexWindow.init+20;										
+									indexWindow.createScrollView(jdata);																			
 								},
 								// function called when an error occurs, including a timeout
 								onerror : function(e) {
@@ -93,140 +93,173 @@ var indexWindow ={
 							client.send();
 	},
 	refreshAnuncis:function(){
-		$.mainList.removeAllChildren();
+		loading = true; 
+		indexWindow.initSearch=0;
+		indexWindow.searching=false;
 		indexWindow.init=0;
+		indexWindow._emptyTableAddLoading();
 		indexWindow.getAnuncis();
 	},
 	searchAnuncis:function(){
-		$.mainList.removeAllChildren();
+		loading = true; 
 		indexWindow.initSearch=0;
 		indexWindow.searching=true;
+		indexWindow._emptyTableAddLoading();
 		indexWindow.getSearchAnuncis();
 	},
+	_emptyTableAddLoading: function(){
+		var rows=[];
+		rows.push(rowLoading);						
+		$.mainList.setData(rows);
+		indexWindow.numAnuncis=1;
+	},
+	_removeLoading: function(){
+		
+						
+		if(indexWindow.numAnuncis==0){							
+			$.mainList.deleteRow(0);
+			indexWindow.numAnuncis=0;
+		}else{
+			$.mainList.deleteRow(indexWindow.numAnuncis-1);
+			indexWindow.numAnuncis--;	
+		}							 
+					
+	},
 	createScrollView: function(json){
-						var row = Ti.UI.createTableViewRow({
-							id:'listRow',
-							class:'listRow',
-						});
-						//
-						var viewRow = Ti.UI.createView({
-						  		id:'rowContainer',
-						  		class:'rowContainer',
-						});
 						
-						var viewTodos = Ti.UI.createView({
-						  		id:'todos',
-						  		class:'todos',
-						});
+		
+						var intImage = 0, intImages = json.length;
 						
-						var viewFoto = Ti.UI.createView({
-						  		id:'foto',
-						  		class:'foto',
-						});
+						if(loading){
+								_removeLoading();
+						}
 						
-						var viewtotm = Ti.UI.createView({
-						  		id:'totm',
-						  		class:'totm',
-						});
-						
-						var viewCon = Ti.UI.createView({
-						  		id:'con',
-						  		class:'con',
-						});
-						
-						var viewNews = Ti.UI.createView({
-						  		id:'news',
-						  		class:'news',
-						});
-						
-						var viewGreyLine = Ti.UI.createView({
-						  		id:'grayLine',
-						  		class:'grayLine',
-						});
-						
-						
-						
-						
-						var intImage = 0, intImages = json.length, img;
 						for (intImage = 0; intImage < intImages; intImage = intImage + 1) {
-						    img = Ti.UI.createImageView({
-						       id:'profilePic',
-						       class:'profilePic',
-						       image: json[intImage].path,
-						    });
-						    var image="";
-						    if(json[intImage].estat =="NEW"){
+							
+							//Crea elements i els hi donem estil
+							var row = Ti.UI.createTableViewRow({
+								id:"listRow",
+								height: "107dp",
+								selectionStyle: "NONE",
+															
+							});
+							var viewRow = Ti.UI.createView({
+							  		id:"rowContainer",
+							  		height: "107dp",
+									width: Ti.UI.FILL,
+									backgroundColor: "#fff",
+									layout: "horizontal"							  	
+							});				
+							var viewTodos = Ti.UI.createView({
+							  		id:"todos",
+							  		width:Ti.UI.FILL,
+									left:0							  	
+							});
+							var viewFoto = Ti.UI.createView({
+							  		id:"foto",
+							  		width:"107dp",							  	
+							  		left:0						
+							});
+							
+							//Canviem color de la dreta segons si es nou normal o vell
+							if(json[intImage].estat =="NEW"){
 						    	
-						    }
+						    	viewFoto.backgroundColor="#4cd964";
+							    
+						    }else if(json[intImage].estat =="NORMAL"){
+						    	
+						    	viewFoto.backgroundColor="#CCCCCC";
+							    
+						    }else{
+						    	
+						    	viewFoto.backgroundColor="red";
+						    	
+						    }						    
+							var viewtotm = Ti.UI.createView({
+							  	id:"totm",
+							  	width:Ti.UI.FILL,
+								left:"107dp",							  	
+							});							
+							var viewCon = Ti.UI.createView({
+							  	id:"con",
+							  	left:0,
+								width:"99%",							  	
+							});							
+							var viewNews = Ti.UI.createView({
+							  	id:"news",
+							  	width:"1%",
+								right:0,
+								backgroundColor:"#4cd964",							  
+							});							
+							var viewGreyLine = Ti.UI.createView({
+							  	id:"grayLine"							  	
+							});
+						    var img = Ti.UI.createImageView({
+						       id:"profilePic",						    
+						       image: json[intImage].name,
+						       width:Ti.UI.FILL,
+							   width:"107dp"
+						    });								    
 						    var labeltitol = Ti.UI.createLabel({
-						    	id:'profileName',
-						    	class:'profileName',
+						    	id:"profileName",						   
 						    	text:json[intImage].titol,
-						    });		
+								top: 5,
+								left: 10,
+								color: "#333333",
+								font: {fontSize: "26dp", fontFamily: "RobotoCondensed-Bold"}
+						    });		   
 						    var labeldescripcio = Ti.UI.createLabel({
-						    	id:'timeAgo',
-						    	class:'timeAgo',
+						    	id:"timeAgo",						   
 						    	text:json[intImage].descripcio,
+						    	top: 28,
+								left: 10 ,
+								color: "#8e8e93",
+								font: {
+									fontSize : "14dp",
+									fontFamily: "Roboto-Light",
+								},
 						    });	
 						    var labelSit = Ti.UI.createLabel({
-						    	id:'situacion',
-						    	class:'situacion',
-						    	text:json[intImage].titol,
+						    	id:"situacion",						    	
+						    	text: "distancia: "+parseFloat(json[intImage].distance).toFixed(2),
+						    	bottom: 30,
+								left: 10,
+								color: "#8e8e93",
+								font: {fontSize: "14dp", fontFamily: "Roboto-Light"}							
 						    });	
 						    var labelPreu = Ti.UI.createLabel({
-						    	id:'price',
-						    	class:'price',
-						    	text:json[intImage].preu,
-						    });					    		
-						   										
+						    	id:"price",						    	
+						    	text:json[intImage].preu+" €",
+						    	bottom: 5,
+								left: 10,
+								color: "#007aff",
+								font: {fontSize: "15dp", fontFamily: "RobotoCondensed-Bold"}
+						    });	
+						    
+						    //estructurem els elements									
 						    viewCon.add(labeltitol);
 						    viewCon.add(labeldescripcio);
 						    viewCon.add(labelSit);
 						    viewCon.add(labelPreu);
-
+						    
 							viewFoto.add(img);
 						    
 						    viewtotm.add(viewCon);
-						    viewtotm.add(viewNews);
-						    
+						    viewtotm.add(viewNews);						    
 						    viewTodos.add(viewFoto);						    
 						    viewTodos.add(viewtotm);
 						    viewTodos.add(viewGreyLine);
 						    
 						    viewRow.add(viewTodos);
-						    $.mainList.add(viewRow);						 
-						}						
-						setTimeout(function(){
-							 $.mainList.remove(labelLoading);
-							 $.mainList.remove(imgLoading);				
-							 loading=false;	
-						},1000);									
-	},
-	createScrollViewSearch: function(json){
-						
-						var intImage = 0, intImages = json.length, img;
-						for (intImage = 0; intImage < intImages; intImage = intImage + 1) {
-						    img = Ti.UI.createImageView({
-						        height: 96,
-								image: json[intImage].name,
-						        left: 8,
-						        top: 8,
-						        width: 96
-						    });
-						    var image="";
-						    if(json[intImage].estat =="NEW"){
+						    row.add(viewRow);
 						    	
-						    }
-						    var label = Ti.UI.createLabel({
-						    	text:json[intImage].titol+" "+json[intImage].estat+" Distance:"+parseFloat(json[intImage].distance).toFixed(2),
-						    });						    												
-						    $.view.add(label);
-						    $.view.add(img);						 
+						    indexWindow.numAnuncis++;
+						    
+						    $.mainList.appendRow(row);				  				 
 						}						
-						setTimeout(function(){
-							$.view.remove(labelLoading);
-							$.view.remove(imgLoading);				
-							loading=false;	
+							
+						setTimeout(function(){				
+							 loading=false;	
 						},1000);									
 	},
 	initLabelLoading: function(){
@@ -248,8 +281,7 @@ var indexWindow ={
 		var win=Alloy.createController('changeUserData').getView();
 		win.open();		
 	},
-	logOut: function(){
-		
+	logOut: function(){		
 		controlDB.deleteUser();
 		var activity = Titanium.Android.currentActivity;
 		activity.finish();
@@ -263,7 +295,7 @@ var indexWindow ={
 														            latitude = e.coords.latitude;
 														            longitude = e.coords.longitude;
 																													    
-							});
+							});		
 							
 							indexWindow.searching=true;
 										
@@ -275,8 +307,8 @@ var indexWindow ={
 									var data = this.responseText;
 									var jdata = JSON.parse(data);
 									
-										indexWindow.initSearch= indexWindow.initSearch+jdata.length;										
-										indexWindow.createScrollViewSearch(jdata);																			
+									indexWindow.initSearch= indexWindow.initSearch+jdata.length;																																						
+									indexWindow.createScrollView(jdata);																			
 								},
 								// function called when an error occurs, including a timeout
 								onerror : function(e) {
@@ -308,11 +340,11 @@ var indexWindow ={
 		Titanium.Geolocation.getCurrentPosition(function(e){
 
 														        var region={
-														            latitude: e.coords.latitude,
-														            longitude: e.coords.longitude,
-														            animate:true,
-														            latitudeDelta:0.001,
-														            longitudeDelta:0.001
+															            latitude: e.coords.latitude,
+															            longitude: e.coords.longitude,
+															            animate:true,
+															            latitudeDelta:0.001,
+															            longitudeDelta:0.001
 															        };
         														mapview.setLocation(region);
         
@@ -343,22 +375,21 @@ var indexWindow ={
 																mapview.addEventListener('regionChanged', function(e) {
 																	
 																		
-																		var newAnotation = Titanium.Map.createAnnotation({
-																									                 latitude : e.latitude,
-																									                 longitude : e.longitude,
-																									                 title : 'you aqsqsqsqre here',
-																									                 subtitle : 'centre',
-																									                 pincolor : Titanium.Map.ANNOTATION_PURPLE,
-																									                 animate : true,
-																									                 myid : 1
-																									             });
-																		mapview.removeAllAnnotations();				
-																		
-																		mapview.addAnnotation(newAnotation);
-																		mapview.addAnnotation(anotation2);	
-																										            
-																		geo.setGeoPoint(e.latitude,e.longitude);													            				
-																		
+																	var newAnotation = Titanium.Map.createAnnotation({
+																										             latitude : e.latitude,
+																										             longitude : e.longitude,
+																										             title : 'you aqsqsqsqre here',
+																										             subtitle : 'centre',
+																										             pincolor : Titanium.Map.ANNOTATION_PURPLE,
+																										             animate : true,
+																										             myid : 1
+																										            });
+																	mapview.removeAllAnnotations();				
+																			
+																	mapview.addAnnotation(newAnotation);
+																	mapview.addAnnotation(anotation2);	
+																											            
+																	geo.setGeoPoint(e.latitude,e.longitude);													            																						
 																					
 																});
 							});
@@ -384,10 +415,9 @@ Titanium.Geolocation.addEventListener('location',function(){
 utilsDB._init($,mapview);
 
 //Inicialitzem el server i el controlador de la pantalla
-indexWindow._init("192.168.1.70:8080/AppStore");
+indexWindow._init("192.168.1.72:8080/AppStore");
 
-//carreguem anunicis a l'scroll view
-indexWindow.getAnuncis();
+
 
 //Afegim buton de registre
 $.viewbuttons.add(buttonRegistre);
@@ -399,9 +429,11 @@ $.viewbuttons.add(button);
 utilsDB.addAnunciButton();
 
 //Boto hidden que s'utilitza per refrescar el llistat d'anuncis
-$.refreshscrollview.hide();
+$.viewrefreshscrollview.hide();
 
-
+function testclick(){
+	alert("er");
+}
 //codi per el control de l'scroll quan arribem al final carrega més anuncis
 //inidica si esta carrregant imatges
 var loading=false;
@@ -410,20 +442,46 @@ var labelLoading = indexWindow.initLabelLoading();
 
 var imgLoading = indexWindow.initImageLoading();
 
+var rowLoading = Ti.UI.createTableViewRow({
+							id:'listRow',
+							class:'listRow',
+							height: "107dp",
+							selectionStyle: "NONE",
+						});
+
+rowLoading.add(labelLoading);
+rowLoading.add(imgLoading);
+
+//carreguem anunicis a l'scroll view
+indexWindow.getAnuncis();
+
+var isAndroid = Ti.Platform.osname === 'android';
 //Afegim listener a l'scroll per al final cargar mes anuncis
-$.viewAnuncis.addEventListener('scroll', function (e) {
-    
-    if(e.y>=$.view.getRect().height-700 && loading==false){
-    	
-    	loading = true;    										
-		$.view.add(labelLoading);				
-		$.view.add(imgLoading);		
+
+ 
+$.mainList.addEventListener('scroll', function(evt) {
+    // If we're on android: our total number of rows is less than the first visible row plus the total number of visible
+    // rows plus 3 buffer rows, we need to load more rows!
+    // ---OR---
+    // If we're on ios: how far we're scrolled down + the size of our visible area + 100 pixels of buffer space
+    // is greater than the total height of our table, we need to load more rows!
+    if ((isAndroid && (evt.totalItemCount < evt.firstVisibleItem + evt.visibleItemCount + 3) && !loading)
+            || (!isAndroid && (evt.contentOffset.y + evt.size.height + 100 > evt.contentSize.height)&& !loading)) {
+        // tell our interval (above) to load more rows
+       
+       loading = true;    										
+       
+      $.mainList.appendRow(rowLoading);
+	  indexWindow.numAnuncis++;
+	  	
 		if(indexWindow.searching==true){
 				indexWindow.getSearchAnuncis();
 		}else{
 				indexWindow.getAnuncis();		
 		}	
-				
-    	
-    }    
+			
+    }
+ 
 });
+ 
+

@@ -19,9 +19,10 @@
 "#mainList":{
 	backgroundColor: "white",
 	separatorStyle: "NONE",
-	height: "85%",
-	top:0,
-	widht: Ti.UI.FILL,
+	height: "60%",
+	top:"25%",
+	bottom:"15%",
+	width: Ti.UI.FILL,
 },
 "#listRow":{
 	height: "107dp",
@@ -75,14 +76,13 @@
 "#foto":{
 	width:"107dp",
 	backgroundColor:"#4cd964",
-	left:0
-	
+	left:0	
 }
 "#profileName":{
 	top: 5,
 	left: 10,
 	color: "#333333",
-	font: {fontSize: "16dp", fontFamily: "RobotoCondensed-Bold"}
+	font: {fontSize: "26dp", fontFamily: "RobotoCondensed-Bold"}
 },
 "#timeAgo":{
 	top: 28,

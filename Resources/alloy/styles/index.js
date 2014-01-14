@@ -9,7 +9,22 @@ module.exports = [ {
     }
 }, {
     isClass: true,
-    priority: 10000.0007,
+    priority: 10000.0027,
+    key: "itemActionButton",
+    style: {
+        width: "50%",
+        height: "50dp"
+    }
+}, {
+    isClass: true,
+    priority: 10000.0039,
+    key: "tbButton",
+    style: {
+        width: "33%"
+    }
+}, {
+    isId: true,
+    priority: 100000.0007,
     key: "footer",
     style: {
         width: Ti.UI.FILL,
@@ -19,8 +34,8 @@ module.exports = [ {
         layout: "horizontal"
     }
 }, {
-    isClass: true,
-    priority: 10000.0008,
+    isId: true,
+    priority: 100000.0008,
     key: "top",
     style: {
         width: Ti.UI.FILL,
@@ -29,19 +44,20 @@ module.exports = [ {
         backgroundColor: "yellow"
     }
 }, {
-    isClass: true,
-    priority: 10000.0009,
+    isId: true,
+    priority: 100000.0009,
     key: "mainList",
     style: {
         backgroundColor: "white",
         separatorStyle: "NONE",
-        height: "85%",
-        top: 0,
-        widht: Ti.UI.FILL
+        height: "60%",
+        top: "25%",
+        bottom: "15%",
+        width: Ti.UI.FILL
     }
 }, {
-    isClass: true,
-    priority: 10000.001,
+    isId: true,
+    priority: 100000.001,
     key: "listRow",
     style: {
         height: "107dp",
@@ -49,8 +65,8 @@ module.exports = [ {
         className: "listRow"
     }
 }, {
-    isClass: true,
-    priority: 10000.0011,
+    isId: true,
+    priority: 100000.0011,
     key: "rowContainer",
     style: {
         height: "107dp",
@@ -59,44 +75,48 @@ module.exports = [ {
         layout: "horizontal"
     }
 }, {
-    isClass: true,
-    priority: 10000.0012,
+    isId: true,
+    priority: 100000.0012,
     key: "profilePic",
     style: {
-        width: "107dp"
+        width: "107dp",
+        image: "/1.jpg"
     }
 }, {
-    isClass: true,
-    priority: 10000.0013,
+    isId: true,
+    priority: 100000.0013,
     key: "profilePic2",
     style: {
-        width: "107dp"
+        width: "107dp",
+        image: "/2.jpg"
     }
 }, {
-    isClass: true,
-    priority: 10000.0014,
+    isId: true,
+    priority: 100000.0014,
     key: "profilePic3",
     style: {
-        width: "107dp"
+        width: "107dp",
+        image: "/3.jpg"
     }
 }, {
-    isClass: true,
-    priority: 10000.0015,
+    isId: true,
+    priority: 100000.0015,
     key: "profilePic4",
     style: {
-        width: "107dp"
+        width: "107dp",
+        image: "/4.jpg"
     }
 }, {
-    isClass: true,
-    priority: 10000.0016,
+    isId: true,
+    priority: 100000.0016,
     key: "con",
     style: {
         left: 0,
         width: "99%"
     }
 }, {
-    isClass: true,
-    priority: 10000.0017,
+    isId: true,
+    priority: 100000.0017,
     key: "news",
     style: {
         width: "1%",
@@ -104,24 +124,24 @@ module.exports = [ {
         backgroundColor: "#4cd964"
     }
 }, {
-    isClass: true,
-    priority: 10000.0018,
+    isId: true,
+    priority: 100000.0018,
     key: "todos",
     style: {
         width: Ti.UI.FILL,
         left: 0
     }
 }, {
-    isClass: true,
-    priority: 10000.0019,
+    isId: true,
+    priority: 100000.0019,
     key: "totm",
     style: {
         width: Ti.UI.FILL,
         left: "107dp"
     }
 }, {
-    isClass: true,
-    priority: 10000.002,
+    isId: true,
+    priority: 100000.002,
     key: "foto",
     style: {
         width: "107dp",
@@ -129,21 +149,21 @@ module.exports = [ {
         left: 0
     }
 }, {
-    isClass: true,
-    priority: 10000.0021,
+    isId: true,
+    priority: 100000.0021,
     key: "profileName",
     style: {
         top: 5,
         left: 10,
         color: "#333333",
         font: {
-            fontSize: "16dp",
+            fontSize: "26dp",
             fontFamily: "RobotoCondensed-Bold"
         }
     }
 }, {
-    isClass: true,
-    priority: 10000.0022,
+    isId: true,
+    priority: 100000.0022,
     key: "timeAgo",
     style: {
         top: 28,
@@ -155,8 +175,8 @@ module.exports = [ {
         }
     }
 }, {
-    isClass: true,
-    priority: 10000.0023,
+    isId: true,
+    priority: 100000.0023,
     key: "price",
     style: {
         bottom: 5,
@@ -168,8 +188,8 @@ module.exports = [ {
         }
     }
 }, {
-    isClass: true,
-    priority: 10000.0024,
+    isId: true,
+    priority: 100000.0024,
     key: "situacion",
     style: {
         bottom: 30,
@@ -181,8 +201,8 @@ module.exports = [ {
         }
     }
 }, {
-    isClass: true,
-    priority: 10000.0025,
+    isId: true,
+    priority: 100000.0025,
     key: "status",
     style: {
         width: Ti.UI.SIZE,
@@ -193,8 +213,8 @@ module.exports = [ {
         }
     }
 }, {
-    isClass: true,
-    priority: 10000.0026,
+    isId: true,
+    priority: 100000.0026,
     key: "bottomActions",
     style: {
         bottom: 0,
@@ -204,16 +224,8 @@ module.exports = [ {
         layout: "horizontal"
     }
 }, {
-    isClass: true,
-    priority: 10000.0027,
-    key: "itemActionButton",
-    style: {
-        width: "50%",
-        height: "50dp"
-    }
-}, {
-    isClass: true,
-    priority: 10000.0028,
+    isId: true,
+    priority: 100000.0028,
     key: "likeBtn",
     style: {
         width: "76dp",
@@ -221,8 +233,8 @@ module.exports = [ {
         image: "/likebtn.png"
     }
 }, {
-    isClass: true,
-    priority: 10000.0029,
+    isId: true,
+    priority: 100000.0029,
     key: "commentBtn",
     style: {
         width: "76dp",
@@ -230,8 +242,8 @@ module.exports = [ {
         image: "/commentbtn.png"
     }
 }, {
-    isClass: true,
-    priority: 10000.003,
+    isId: true,
+    priority: 100000.003,
     key: "statusBtn",
     style: {
         width: "73dp",
@@ -239,8 +251,8 @@ module.exports = [ {
         image: "/statusbtn.png"
     }
 }, {
-    isClass: true,
-    priority: 10000.0031,
+    isId: true,
+    priority: 100000.0031,
     key: "photoBtn",
     style: {
         width: "73dp",
@@ -248,8 +260,8 @@ module.exports = [ {
         image: "/photobtn.png"
     }
 }, {
-    isClass: true,
-    priority: 10000.0032,
+    isId: true,
+    priority: 100000.0032,
     key: "checkinBtn",
     style: {
         width: "73dp",
@@ -257,8 +269,8 @@ module.exports = [ {
         image: "/checkinbtn.png"
     }
 }, {
-    isClass: true,
-    priority: 10000.0033,
+    isId: true,
+    priority: 100000.0033,
     key: "menubtn",
     style: {
         left: 0,
@@ -267,8 +279,8 @@ module.exports = [ {
         image: "/menubtn.png"
     }
 }, {
-    isClass: true,
-    priority: 10000.0034,
+    isId: true,
+    priority: 100000.0034,
     key: "chatbtn",
     style: {
         width: "55dp",
@@ -277,42 +289,35 @@ module.exports = [ {
         image: "/chatbtn.png"
     }
 }, {
-    isClass: true,
-    priority: 10000.0035,
+    isId: true,
+    priority: 100000.0035,
     key: "labelia",
     style: {
         right: 5,
         color: "black"
     }
 }, {
-    isClass: true,
-    priority: 10000.0036,
+    isId: true,
+    priority: 100000.0036,
     key: "icone",
     style: {
         width: Ti.UI.FILL,
         image: "/icone.png"
     }
 }, {
-    isClass: true,
-    priority: 10000.0037,
+    isId: true,
+    priority: 100000.0037,
     key: "icone1",
     style: {
         width: Ti.UI.FILL,
         image: "/icone.png"
     }
 }, {
-    isClass: true,
-    priority: 10000.0038,
+    isId: true,
+    priority: 100000.0038,
     key: "icone2",
     style: {
         width: Ti.UI.FILL,
         image: "/icone.png"
-    }
-}, {
-    isClass: true,
-    priority: 10000.0039,
-    key: "tbButton",
-    style: {
-        width: "33%"
     }
 } ];
