@@ -196,32 +196,37 @@ function Controller() {
         },
         refreshAnuncis: function() {
             loading = true;
-            var rows = [];
-            rows.push(rowLoading);
-            $.mainList.setData(rows);
             indexWindow.initSearch = 0;
             indexWindow.searching = false;
             indexWindow.init = 0;
-            indexWindow.numAnuncis = 1;
+            indexWindow._emptyTableAddLoading();
             indexWindow.getAnuncis();
         },
         searchAnuncis: function() {
             loading = true;
             indexWindow.initSearch = 0;
-            indexWindow.numAnuncis = 0;
             indexWindow.searching = true;
+            indexWindow._emptyTableAddLoading();
+            indexWindow.getSearchAnuncis();
+        },
+        _emptyTableAddLoading: function() {
             var rows = [];
             rows.push(rowLoading);
             $.mainList.setData(rows);
-            indexWindow.numAnuncis++;
-            indexWindow.getSearchAnuncis();
+            indexWindow.numAnuncis = 1;
         },
-        createScrollView: function(json) {
-            var intImage = 0, intImages = json.length;
-            if (loading) if (0 == indexWindow.numAnuncis) $.mainList.deleteRow(0); else {
+        _removeLoading: function() {
+            if (0 == indexWindow.numAnuncis) {
+                $.mainList.deleteRow(0);
+                indexWindow.numAnuncis = 0;
+            } else {
                 $.mainList.deleteRow(indexWindow.numAnuncis - 1);
                 indexWindow.numAnuncis--;
             }
+        },
+        createScrollView: function(json) {
+            var intImage = 0, intImages = json.length;
+            loading && _removeLoading();
             for (intImage = 0; intImages > intImage; intImage += 1) {
                 var row = Ti.UI.createTableViewRow({
                     id: "listRow",
@@ -353,6 +358,7 @@ function Controller() {
             win.open();
         },
         logOut: function() {
+            logoutFacebook();
             controlDB.deleteUser();
             var activity = Titanium.Android.currentActivity;
             activity.finish();
@@ -470,7 +476,9 @@ function Controller() {
     var imgLoading = indexWindow.initImageLoading();
     var rowLoading = Ti.UI.createTableViewRow({
         id: "listRow",
-        "class": "listRow"
+        "class": "listRow",
+        height: "107dp",
+        selectionStyle: "NONE"
     });
     rowLoading.add(labelLoading);
     rowLoading.add(imgLoading);

@@ -282,6 +282,7 @@ var indexWindow ={
 		win.open();		
 	},
 	logOut: function(){		
+		logoutFacebook();
 		controlDB.deleteUser();
 		var activity = Titanium.Android.currentActivity;
 		activity.finish();

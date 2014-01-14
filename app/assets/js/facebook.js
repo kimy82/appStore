@@ -13,10 +13,16 @@ fb.addEventListener('login', function(e) {
         fb.requestWithGraphPath('/me', params, 'GET', function(e) {
             var result = JSON.parse(e.result);
            
-           alert("Username is : " + result.email);
-            
+          
+            var longitude = "";
+			var latitude = "";
+			Titanium.Geolocation.getCurrentPosition(function(e){
+				latitude = e.coords.latitude;
+				longitude = e.coords.longitude;
+																													    
+			});	
             //Guarda user al servidor
-            server.insertUser(result.username,result.email);
+            server.insertUser(result.username,result.email,latitude,longitude);
             principal.setUser(result.username);  
             utilsDB.addAnunciButton();                                  
  
@@ -35,3 +41,10 @@ var button = fb.createLoginButton({
     top : 150,
     style : fb.BUTTON_STYLE_WIDE
 });
+
+function logoutFacebook(){
+	
+			fb.logout();
+	
+}
+
