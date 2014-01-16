@@ -35,19 +35,16 @@ var _executionsDB = {
 	saveUser : function() { //Guarda dades del user a la BBDD del client. Agafa les dades de l'objecte user.
 		
 		var query = 'INSERT INTO USER (id,name,password) VALUES (\''+user.getId()+'\',\'' + user.getName() + '\',\'' + user.getPassword() + '\')';
-		//alert("insert");
 		db.execute(query);
 	},
 	deleteUser : function() { // Borra usuari de la BBDD del client
 		
 		var query = 'DELETE FROM USER WHERE 1=1';
-		//alert("delete");
 		db.execute(query);
 		
 	},
 	getUser: function(){//recuper usuari de la BBDD del client. Si no existeix retorna un user buit
 		var query = 'SELECT * FROM USER WHERE 1=1';
-		//alert("insert");
 		var rows = db.execute(query);
 		user._init();
 		while (rows.isValidRow()){
@@ -107,7 +104,7 @@ utilsDB = {
 													win.open();	
 								});
 								
-								
+							
 			utilsDB.wind.viewbuttons.add(buttonFoto);
 			principal.setUser(userInDB.name);	
 		}		

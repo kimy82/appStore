@@ -9,7 +9,7 @@ var principal = {
 			this.buttonFacebook = buttonFacebook;
 			this.buttonLogout = buttonLogout;
 		},
-		setUser: function(user){						
+		setUser: function(user){					
 			principal.win.userLabel.setText(user);		
 			principal.win.viewbuttons.remove(principal.buttonRegistre);
 			principal.win.viewbuttons.remove(principal.buttonFacebook);	

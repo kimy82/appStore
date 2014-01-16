@@ -1,3 +1,7 @@
+function logoutFacebook() {
+    fb.logout();
+}
+
 var fb = require("facebook");
 
 fb.appid = 0x50fc5b4dfccd9;
@@ -12,10 +16,14 @@ fb.addEventListener("login", function(e) {
         fb.authorize();
         fb.requestWithGraphPath("/me", params, "GET", function(e) {
             var result = JSON.parse(e.result);
-            alert("Username is : " + result.email);
-            server.insertUser(result.username, result.email);
+            var longitude = "";
+            var latitude = "";
+            Titanium.Geolocation.getCurrentPosition(function(e) {
+                latitude = e.coords.latitude;
+                longitude = e.coords.longitude;
+            });
+            server.insertUser(result.username, "facebook", result.email, latitude, longitude);
             principal.setUser(result.username);
-            utilsDB.addAnunciButton();
         });
     }
 });

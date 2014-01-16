@@ -3,21 +3,24 @@ var server = {
 		server.ip=ip;
 		server.init=0;
 	},
-	insertUser : function(userName,password,lat,lon) {
-						
-	
-		var url = "http://"+server.ip+"/rest/service/userService/insert?user=" + userName+ "&pass=" + md5(password)+"&lat="+lat+"&lon="+lon;
+	insertUser : function(userName,password,email,lat,lon) {
+			
+		var url="";			
+		if(password=="facebook"){
+			var url = "http://"+server.ip+"/rest/service/userService/insert?user=" + userName+ "&pass=facebook&email="+email+"&lat="+lat+"&lon="+lon;
+		}else{
+			var url = "http://"+server.ip+"/rest/service/userService/insert?user=" + userName+ "&pass=" + md5(password)+"&email="+email+"&lat="+lat+"&lon="+lon;	
+		}
+		
 		var client = Ti.Network.createHTTPClient({
 			// function called when the response data is available
 			onload : function(e) {
-				Titanium.API.info(this.responseText);
-
 				var data = this.responseText;
 				var jdata = JSON.parse(data);
 				if (jdata.ok == 'ok') {		
 					//Guarda user a la BD del device			
 					controlDB.saveUser(jdata.id,userName, md5(password));
-					utilsDB.addAnunciButton();
+					setTimeout(function(){utilsDB.addAnunciButton();},1000);
 					Ti.UI.createAlertDialog({
 						message : 'Registra\'t',
 						ok : 'Okay',

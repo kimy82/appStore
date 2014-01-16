@@ -17,7 +17,7 @@ var createAccount = {
 			createAccount.showMessage("L' email no és correcte","KO","email");
 		}else{
 			if($.repeatpassword.value == $.password.value){
-				server.insertUser( $.userName.value, $.password.value, geo.latitude,geo.longitude);
+				server.insertUser( $.userName.value, $.password.value,$.email.value, geo.latitude,geo.longitude);
 				principal.setUser($.userName.value);
 				parent.viewbuttons.remove(button);		
 				$.createAccount.close();	

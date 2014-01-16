@@ -13,7 +13,7 @@ fb.addEventListener('login', function(e) {
         fb.requestWithGraphPath('/me', params, 'GET', function(e) {
             var result = JSON.parse(e.result);
            
-          
+       
             var longitude = "";
 			var latitude = "";
 			Titanium.Geolocation.getCurrentPosition(function(e){
@@ -22,9 +22,9 @@ fb.addEventListener('login', function(e) {
 																													    
 			});	
             //Guarda user al servidor
-            server.insertUser(result.username,result.email,latitude,longitude);
+            server.insertUser(result.username,"facebook",result.email,latitude,longitude);
             principal.setUser(result.username);  
-            utilsDB.addAnunciButton();                                  
+                                       
  
         });
     }

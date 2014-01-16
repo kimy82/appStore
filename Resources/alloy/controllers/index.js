@@ -124,7 +124,7 @@ function Controller() {
     Ti.include("/js/principal.js");
     Ti.include("/js/facebook.js");
     Ti.include("/js/server.js");
-    server._init("192.168.1.72:8080/AppStore");
+    server._init("192.168.1.74:8080/AppStore");
     var buttonRegistre = Titanium.UI.createButton({
         title: "Registra 't",
         top: 10,
@@ -466,7 +466,7 @@ function Controller() {
         indexWindow.geolocationInit();
     });
     utilsDB._init($, mapview);
-    indexWindow._init("192.168.1.72:8080/AppStore");
+    indexWindow._init("192.168.1.74:8080/AppStore");
     $.viewbuttons.add(buttonRegistre);
     $.viewbuttons.add(button);
     utilsDB.addAnunciButton();
