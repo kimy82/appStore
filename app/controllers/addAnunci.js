@@ -193,7 +193,7 @@ var scrollFotosAnunci = Ti.UI.createScrollView({
 $.fotosView.add(scrollFotosAnunci);
 //fi scroll view
 
-anunci._init('192.168.1.74:8080/AppStore');
+anunci._init('192.168.1.69:8080/AppStore');
 $.addAnunci.backgroundColor="#CCCCCC";
 $.saveAnunci.setTitle('guarda');
 $.addFotoFromGaleria.setTitle('add Galeria');

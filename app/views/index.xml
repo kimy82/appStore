@@ -1,11 +1,7 @@
 <Alloy>
 	<Window class="container" >
 		
-		<Label id="userLabel" class="userLabel" onClick="indexWindow.changeUserData" ></Label>
-		<View  height="300" layout="horizontal" top="0"  id="viewbuttons" >
-			<TextField id="distance" ></TextField>
-			<Button id="search" title="busca" onClick="indexWindow.searchAnuncis" ></Button>
-		</View>
+		
 					
 		<TableView id="mainList">
 				
@@ -25,5 +21,65 @@
 			<Button id="refreshscrollview" onClick="indexWindow.refreshAnuncis"></Button>
 		</View>
 		
+		
+		<View id="menu" onClick="indexWindow.showhidemenu">
+			<Label id="userLabel" class="userLabel" onClick="indexWindow.changeUserData" ></Label>
+			<View top="30"  id="viewbuttons" >
+				<TextField id="distance" ></TextField>
+				<Button id="search" title="busca" onClick="indexWindow.searchAnuncis" ></Button>
+			</View>			
+		</View>
+		<View id="mainTop">
+			<View id="options">
+				<View class="option"><Label>One</Label></View>
+			</View>
+			<View id="header">
+				<View id="int_header">
+						<Label id="categories">Totes les categories</Label>
+				</View>				
+			</View>
+		</View>
+		<View  id="mainContainer">
+			
+		<View id="main">
+			
+			<TableView  id="mainList">				
+				<TableViewRow id="listRowFirst">
+					<View id="rowContainerFirst">
+						<View id="todosFirst">														
+						</View>
+					</View>
+					<View id="grayLine" ></View>
+				</TableViewRow>
+				<TableViewRow id="listRowTwo">
+					<View id="rowContainerTwo">
+						<View id="todos">						
+						</View>
+					</View>
+				</TableViewRow>
+			</TableView>
+		
+		</View>
+			
+			
+		<View id="footer">
+				
+				<View class="tbButton">
+					<ImageView id="icone" onClick="indexWindow.showhidemenu"></ImageView>
+				</View>
+				<ImageView id="sep"></ImageView>
+				<View  class="tbButton">
+					<ImageView id="icone1" onClick="testclick"></ImageView>
+				</View>
+				<ImageView id="sep"></ImageView>
+				<View  class="tbButton">
+					<ImageView id="icone2" onClick="testclick"></ImageView>
+				</View>
+				<ImageView id="sep"></ImageView>
+				<View  class="tbButton">
+					<ImageView id="icone3" onClick="testclick"></ImageView>
+				</View>
+		</View>
+	</View>
 	</Window>
 </Alloy>

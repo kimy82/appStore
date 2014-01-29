@@ -3,89 +3,196 @@
 	navBarHidden: true,
 	orientationModes: [Ti.UI.PORTRAIT,Ti.UI.LANDSCAPE_LEFT,Ti.UI.LANDSCAPE_RIGHT,Ti.UI.UPSIDE_PORTRAIT],
 },
-"#footer":{
-	width : Ti.UI.FILL,
-    height: "15%",
-    bottom: 0,
-    backgroundColor:"#4cd964",
-	layout: "horizontal"
-},
-"#top":{
-	width : Ti.UI.FILL,
-    height: Ti.UI.FILL,
-    top: 0,
-    backgroundColor:"yellow"
-},
-"#mainList":{
-	backgroundColor: "white",
-	separatorStyle: "NONE",
-	height: "60%",
-	top:"25%",
-	bottom:"15%",
+//view Menu
+"#menu":{
+	height: Ti.UI.FILL,
 	width: Ti.UI.FILL,
+	backgroundColor: "#333333",
+	left: 0,
+	
 },
+//view wrapper conte el header i el footer
+"#main":{
+	height: Ti.UI.FILL,
+	width: Ti.UI.FILL,
+	backgroundColor: "#dbdbdb",
+	left: 0,
+	layout: "vertical"
+},
+"#mainTop":{
+	height:'90dp',
+	width: Ti.UI.FILL,
+	left: 0,
+	top:0,
+	zIndex:30
+},
+
+//header conte top actions
+"#header":{
+	backgroundColor:'#dbdbdb',
+	width: Ti.UI.FILL,
+	height: "30dp",
+	top: 0, 
+	right: 0, 
+	left: 0,
+	layout:"horitzontal",
+	zIndex:11,
+	
+},
+"#int_header":{
+	width:Ti.UI.FILL,
+	height:"30dp",
+	
+},
+"#categories":{
+	color: "white",
+	font: {
+		fontSize : "15dp",
+		fontFamily: "RobotoCondensed-Bold",
+	},
+	
+},
+"#options": {
+	
+	right: 0, 
+	left: 0,
+	height: '90dp',
+	layout: 'horitzontal',
+	bubbleParent: false, // Stop taps from bubbling to container, causing hide
+	zIndex:10,
+	width:Ti.UI.FILL,
+}
+".option": {
+	top: 0, right: 0, left: 0,
+	height: 90,
+	
+	backgroundColor: 'white'
+}
+
+ 
+//fi header
+//primera vieew
+"#listRowFirst":{
+	height: "92dp",
+	selectionStyle: "NONE",
+	className:"listRow",
+	showVerticalScrollIndicator: false,
+	 className: 'row',
+    objName: 'row',
+},
+"#rowContainerFirst":{
+	height: "80dp",
+	width: Ti.UI.FILL,
+	top:'10dp',
+	layout: "horizontal",
+},
+"#todosFirst":{
+	width:Ti.UI.FILL,
+	left:0,
+},
+//inici taula
+"#mainList":{
+	backgroundColor: "#dbdbdb",
+	separatorStyle: "NONE",
+	height: Ti.UI.SIZE,
+	top:0,
+	left:'10dp',
+	right:'10dp',
+	widht: Ti.UI.SIZE,
+	separatorColor: '#FFFFFFF',
+	showVerticalScrollIndicator: false,
+	objName: 'table',
+	zIndex:40
+	
+},
+//
 "#listRow":{
 	height: "107dp",
 	selectionStyle: "NONE",
-	className:"listRow"
+	className:"listRow",
+	showVerticalScrollIndicator: false,
+	 className: 'row',
+    objName: 'row',
 },
-
 "#rowContainer":{
-	height: "107dp",
+	height: "97dp",
 	width: Ti.UI.FILL,
-	backgroundColor: "#fff",
-	layout: "horizontal"
+	top:'10dp',
+	layout: "horizontal",
+	
+	
 },
+//view container que equilibra les diferent views interiors
+"#todos":{
+	width:Ti.UI.FILL,
+	left:0,
+	backgroundColor: "#ffffff",
+	HighlightedColor: '#333333',
+	
+},
+//View container foto
+"#foto":{
+	width:"97dp",
+	left:'0dp',
+}
+"#sold":{
+	top: '5dp',
+	right: '10dp',
+	height:Ti.UI.SIZE,
+	image:"/sold.png",
+	width:Ti.UI.SIZE,
+	zIndex:20
+},
+//foto de producte
 "#profilePic":{
 	 width:Ti.UI.FILL,
+	 height:Ti.UI.FILL,
 	 image:"/1.jpg",
-	 width:"107dp"
+	 
 },
 "#profilePic2":{
-	 width:Ti.UI.FILL,
+	  width:Ti.UI.FILL,
+	 height:Ti.UI.FILL,
 	 image:"/2.jpg",
-	 width:"107dp"
+	 
 },
 "#profilePic3":{
-	 width:Ti.UI.FILL,
+	  width:Ti.UI.FILL,
+	 height:Ti.UI.FILL,
 	 image:"/3.jpg",
-	 width:"107dp"
 },
 "#profilePic4":{
-	 width:Ti.UI.FILL,
+	width:Ti.UI.FILL,
+	 height:Ti.UI.FILL,
 	 image:"/4.jpg",
-	 width:"107dp"
+},
+//View container
+"#totm":{
+	width:Ti.UI.FILL,
+	left:"97dp",
 },
 "#con":{
 	left:0,
 	width:"99%",
+	
 },
-"#news":{
-	width:"1%",
-	right:0,
-	backgroundColor:"#4cd964",
+//container textes
+"#container_textes":{
+	left:0,
+	layout: "vertical",
+	height: "97dp",
+	height: Ti.UI.SIZE,
 },
-"#todos":{
-	width:Ti.UI.FILL,
-	left:0
-},
-"#totm":{
-	width:Ti.UI.FILL,
-	left:"107dp",
-},
-"#foto":{
-	width:"107dp",
-	backgroundColor:"#4cd964",
-	left:0	
-}
-"#profileName":{
+//Nom del producte
+"#productName":{
 	top: 5,
 	left: 10,
 	color: "#333333",
-	font: {fontSize: "26dp", fontFamily: "RobotoCondensed-Bold"}
+	font: {fontSize: "16dp", fontFamily: "RobotoCondensed-Bold"}
 },
-"#timeAgo":{
-	top: 28,
+//Descripcio del producte
+"#description":{
+	top: 33,
 	left: 10 ,
 	color: "#8e8e93",
 	font: {
@@ -93,94 +200,125 @@
 		fontFamily: "Roboto-Light",
 	},
 },
+//Preu del producte
 "#price":{
 	bottom: 5,
-	left: 10,
+	right: 10,
 	color: "#007aff",
 	font: {fontSize: "15dp", fontFamily: "RobotoCondensed-Bold"}
 },
+//Situació del producte
 "#situacion":{
-	bottom: 30,
+	bottom: 5,
 	left: 10,
 	color: "#8e8e93",
 	font: {fontSize: "14dp", fontFamily: "Roboto-Light"}
 },
-"#status":{
-	width: Ti.UI.SIZE,
-	left: 5,
-	right: 5,
-	font: {
-		fontSize : "16dp"
-	}
+//Si es nou, normal o porta molt de temps
+"#news":{
+	width:"1%",
+	right:0,
+	backgroundColor:"#4cd964",
 },
-"#bottomActions":{
-	bottom: 0,
-	height: "50dp",
+//footer container
+"#footer":{
 	width: Ti.UI.FILL,
-	backgroundColor: "#eff2f5",
+	height: "40dp",
+	backgroundColor:'#dbdbdb',
+	bottom: 0, 
 	layout: "horizontal"
 },
-".itemActionButton":{
-	width: "50%",
-	height: "50dp"
+//View container, organitza en espai horitzontal
+".tbButton":{
+	width: "24.5%",
 },
-"#likeBtn":{
-	width: "76dp",
-	height: "20dp",
-	image: "/likebtn.png"
-},
-"#commentBtn":{
-	width: "76dp",
-	height: "20dp",
-	image: "/commentbtn.png"
-},
-"#statusBtn":{
-	width: "73dp",
-	height: "19dp",
-	image: "/statusbtn.png"
-},
-"#photoBtn":{
-	width: "73dp",
-	height: "19dp",
-	image: "/photobtn.png"
-},
-"#checkinBtn":{
-	width: "73dp",
-	height: "19dp",
-	image: "/checkinbtn.png"
-},
-"#menubtn":{
-	left: 0,
-	width: "55dp",
-	height: "54dp",
-	image:"/menubtn.png"
-},
-"#chatbtn":{
-	width: "55dp",
-	height: "54dp",
-	right: 0,
-	image:"/chatbtn.png"
-}
-'#labelia':{
-	right: 5,
-	color:"black"
-	
-}
 "#icone":{
-	width: Ti.UI.FILL,
-	
-	image: "/icone.png"
+	width: '30dp',
+	image: "/home.png"
 },
 "#icone1":{
-	width: Ti.UI.FILL,
-	
-	image: "/icone.png"
+	width: '30dp',
+	image: "/user.png"
 },
 "#icone2":{
-	width: Ti.UI.FILL,
-	
-	image: "/icone.png"
+	width: '30dp',
+	image: "/upload.png"
 },
-".tbButton":{
-	width: "33%",
+"#icone3":{
+	width: '30dp',
+	image: "/chat.png"
+},
+"#sep":{
+	width: 1,
+	image: "/sep.png",
+	height: Ti.UI.FILL,
+},
+"#productName":{
+	top: 5,
+	left: 10,
+	color: "#333333",
+	height: Ti.UI.SIZE,
+	font: {fontSize: "16dp", fontFamily: "RobotoCondensed-Bold"}
+},
+"#descriptiona":{
+	top: 5,
+	left: 10 ,
+	color: "#8e8e93",
+	height: Ti.UI.SIZE,
+	font: {
+		fontSize : "14dp",
+		fontFamily: "Roboto-Light",
+	},
+},
+"#pricea":{
+	bottom: 5,
+	left: 10,
+	color: "#007aff",
+	height: Ti.UI.SIZE,
+	font: {fontSize: "15dp", fontFamily: "RobotoCondensed-Bold"}
+},
+"#situaciona":{
+	bottom: 5,
+	left: 10,
+	color: "#8e8e93",
+	height: Ti.UI.SIZE,
+	font: {fontSize: "14dp", fontFamily: "Roboto-Light"}
+},
+
+"#trure":{
+	left:0,
+	color: "#8e8e93",
+	font: {
+		fontSize : "14dp",
+		fontFamily: "Roboto-Light",
+	},
+},
+"#last":{
+	height: "40dp",
+	selectionStyle: "NONE",
+	className:"listRow"
+},
+"#rowContainerTwo":{
+	height: "40dp",
+	width: Ti.UI.FILL,
+	backgroundColor: "#fff",
+	layout: "horizontal"
+},
+"#con_footer":{
+	height: "40dp",
+	width: Ti.UI.FILL,
+	layout: "horizontal"
+},
+"#grayLine":{
+	height: "1dp",
+	width: Ti.UI.FILL,
+	layout: "horizontal",
+	backgroundColor:'#bcbcbc',
+	top:'106dp',
+},
+//ultima row, perque no quedi tapada la ultima entrada
+"#listRowTwo":{
+	height: "40dp",
+	selectionStyle: "NONE",
+	className:"listRow"
 }

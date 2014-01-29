@@ -2,8 +2,13 @@ Ti.include("/js/md5.js");
 Ti.include("/js/principal.js");
 Ti.include("/js/facebook.js");
 Ti.include("/js/server.js"); 
-server._init("192.168.1.72:8080/AppStore");
+server._init("192.168.1.69:8080/AppStore");
 
+var args = arguments[0] || {},
+  isVisible = false,
+  headerHeight,
+  optionsHeight;
+  
 //Butoon de registre
 var buttonRegistre = Titanium.UI.createButton({
    title: 'Registra \'t',
@@ -112,18 +117,80 @@ var indexWindow ={
 		rows.push(rowLoading);						
 		$.mainList.setData(rows);
 		indexWindow.numAnuncis=1;
+		loading=true;
 	},
-	_removeLoading: function(){
-		
-						
+	_removeLoading: function(){								
 		if(indexWindow.numAnuncis==0){							
 			$.mainList.deleteRow(0);
 			indexWindow.numAnuncis=0;
 		}else{
 			$.mainList.deleteRow(indexWindow.numAnuncis-1);
 			indexWindow.numAnuncis--;	
-		}							 
-					
+		}							 					
+	},
+	_removeLastRow: function(){								
+		if(indexWindow.numAnuncis!=0){							
+			$.mainList.deleteRow(indexWindow.numAnuncis-1);
+			indexWindow.numAnuncis--;
+		}						 					
+	},
+	_setLastRow: function(){	
+		
+		var row = Ti.UI.createTableViewRow({
+								id:"listRowTwo",
+								height: "40dp",
+								selectionStyle: "NONE",	
+								className:"listRow",														
+							});
+						
+		var viewRow = Ti.UI.createView({
+							  		id:"rowContainerTwo",
+							  		height: "40dp",
+									width: Ti.UI.FILL,
+									backgroundColor: "#fff",
+									layout: "horizontal"							  	
+							});	
+		var viewTodos = Ti.UI.createView({
+							  		id:"todos",
+							  		width:Ti.UI.FILL,
+							  		backgroundColor: "#ffffff",
+							  		HighlightedColor: '#333333',
+									left:0							  	
+							});	
+		viewRow.add(viewTodos);
+		row.add(viewRow);
+		$.mainList.appendRow(row);
+		indexWindow.numAnuncis++;							 					
+	},
+	_setFirstRow: function(){	
+			if(indexWindow.numAnuncis==0 ){
+				var row = Ti.UI.createTableViewRow({
+										id:"listRowFirst",
+										height: "92dp",
+										selectionStyle: "NONE",	
+										showVerticalScrollIndicator: false,
+										className:"row",
+										objName: 'row',														
+									});
+		    		
+				var viewRow = Ti.UI.createView({
+									  		id:"rowContainerFirst",
+									  		height: "80dp",
+											width: Ti.UI.FILL,
+											top:'10dp',
+											backgroundColor: '#fff',
+											layout: 'horizontal'							  	
+									});	
+				var viewTodos = Ti.UI.createView({
+									  		id:"todosFirst",
+									  		width:Ti.UI.FILL,
+											left:0,						  	
+									});	
+				viewRow.add(viewTodos);
+				row.add(viewRow);
+				$.mainList.appendRow(row);
+				indexWindow.numAnuncis++;	
+			}						 					
 	},
 	createScrollView: function(json){
 						
@@ -131,34 +198,38 @@ var indexWindow ={
 						var intImage = 0, intImages = json.length;
 						
 						if(loading){
-								_removeLoading();
+								indexWindow._removeLoading();
 						}
 						
-						for (intImage = 0; intImage < intImages; intImage = intImage + 1) {
-							
+						indexWindow._removeLastRow();
+					
+						//indexWindow._setFirstRow();
+					
+						for (intImage = 0; intImage < intImages; intImage = intImage + 1) {							
 							//Crea elements i els hi donem estil
 							var row = Ti.UI.createTableViewRow({
-								id:"listRow",
 								height: "107dp",
 								selectionStyle: "NONE",
-															
+								className:"listRow",
+								showVerticalScrollIndicator: false,
+								 className: 'row',
+							    objName: 'row',												
 							});
 							var viewRow = Ti.UI.createView({
-							  		id:"rowContainer",
-							  		height: "107dp",
-									width: Ti.UI.FILL,
-									backgroundColor: "#fff",
-									layout: "horizontal"							  	
+							  	height: "97dp",
+								width: Ti.UI.FILL,
+								top:'10dp',
+								layout: "horizontal",							  	
 							});				
 							var viewTodos = Ti.UI.createView({
-							  		id:"todos",
 							  		width:Ti.UI.FILL,
-									left:0							  	
+									left:0,
+									backgroundColor: "#ffffff",
+									HighlightedColor: '#333333',						  	
 							});
 							var viewFoto = Ti.UI.createView({
-							  		id:"foto",
-							  		width:"107dp",							  	
-							  		left:0						
+							  	width:"97dp",
+								left:'0dp',					
 							});
 							
 							//Canviem color de la dreta segons si es nou normal o vell
@@ -176,29 +247,32 @@ var indexWindow ={
 						    	
 						    }						    
 							var viewtotm = Ti.UI.createView({
-							  	id:"totm",
 							  	width:Ti.UI.FILL,
-								left:"107dp",							  	
+								left:"97dp",						  	
 							});							
 							var viewCon = Ti.UI.createView({
-							  	id:"con",
 							  	left:0,
 								width:"99%",							  	
 							});							
 							var viewNews = Ti.UI.createView({
-							  	id:"news",
 							  	width:"1%",
 								right:0,
-								backgroundColor:"#4cd964",							  
+								backgroundColor:"#4cd964",						  
+							});	
+							
+							var grayLine = Ti.UI.createView({
+							  	height: "1dp",
+								width: Ti.UI.FILL,
+								layout: "horizontal",
+								backgroundColor:'#bcbcbc',
+								top:'106dp',						  
 							});							
-							var viewGreyLine = Ti.UI.createView({
-							  	id:"grayLine"							  	
-							});
+							
 						    var img = Ti.UI.createImageView({
 						       id:"profilePic",						    
 						       image: json[intImage].name,
 						       width:Ti.UI.FILL,
-							   width:"107dp"
+	 						   height:Ti.UI.FILL,
 						    });								    
 						    var labeltitol = Ti.UI.createLabel({
 						    	id:"profileName",						   
@@ -206,12 +280,10 @@ var indexWindow ={
 								top: 5,
 								left: 10,
 								color: "#333333",
-								font: {fontSize: "26dp", fontFamily: "RobotoCondensed-Bold"}
+								font: {fontSize: "16dp", fontFamily: "RobotoCondensed-Bold"}
 						    });		   
 						    var labeldescripcio = Ti.UI.createLabel({
-						    	id:"timeAgo",						   
-						    	text:json[intImage].descripcio,
-						    	top: 28,
+						    	top: 33,
 								left: 10 ,
 								color: "#8e8e93",
 								font: {
@@ -222,7 +294,7 @@ var indexWindow ={
 						    var labelSit = Ti.UI.createLabel({
 						    	id:"situacion",						    	
 						    	text: "distancia: "+parseFloat(json[intImage].distance).toFixed(2),
-						    	bottom: 30,
+						    	bottom: 5,
 								left: 10,
 								color: "#8e8e93",
 								font: {fontSize: "14dp", fontFamily: "Roboto-Light"}							
@@ -231,7 +303,7 @@ var indexWindow ={
 						    	id:"price",						    	
 						    	text:json[intImage].preu+" €",
 						    	bottom: 5,
-								left: 10,
+								right: 10,
 								color: "#007aff",
 								font: {fontSize: "15dp", fontFamily: "RobotoCondensed-Bold"}
 						    });	
@@ -248,15 +320,17 @@ var indexWindow ={
 						    viewtotm.add(viewNews);						    
 						    viewTodos.add(viewFoto);						    
 						    viewTodos.add(viewtotm);
-						    viewTodos.add(viewGreyLine);
+						   
 						    
 						    viewRow.add(viewTodos);
+						   
 						    row.add(viewRow);
-						    	
+						    row.add(grayLine);
 						    indexWindow.numAnuncis++;
 						    
 						    $.mainList.appendRow(row);				  				 
 						}						
+							indexWindow._setLastRow();
 							
 						setTimeout(function(){				
 							 loading=false;	
@@ -395,7 +469,51 @@ var indexWindow ={
 																});
 							});
 		
+	},
+	showhidemenu: function(e){
+		if (!menuOpen){
+			moveTo="250dp";
+			menuOpen=true;
+			hide();
+		}else{
+			moveTo="0";
+			menuOpen=false;
+			show();
+		}
+		
+		// have to set the current width of the "main" view before moving it so it doesn't get squeezed
+		// try commenting out the following line and setting the "newLeft" to 200 instead of 
+		// 300 to see what I mean
+		$.mainContainer.width=Ti.Platform.displayCaps.platformWidth;
+		$.mainContainer.animate({
+			left:moveTo,
+			duration:100
+		});
 	},		
+	showMenuUp: function() {
+		isVisible = true;
+		
+		$.mainContainer.height = Ti.UI.FILL;
+		$.options.animate({
+			top: headerHeight,
+			duration:100
+		});
+		
+		
+		return;
+	},
+	hideMenuUp: function() {
+		isVisible = false;
+		
+		$.options.animate({
+			top: -optionsHeight,
+			duration:100,
+			zIndex:0
+		}, function () {
+			$.mainContainer.height = Ti.UI.FILL;
+		});
+		return;
+	},
 };
 
 //Params per la geolocalitzacio
@@ -416,7 +534,7 @@ Titanium.Geolocation.addEventListener('location',function(){
 utilsDB._init($,mapview);
 
 //Inicialitzem el server i el controlador de la pantalla
-indexWindow._init("192.168.1.72:8080/AppStore");
+indexWindow._init("192.168.1.69:8080/AppStore");
 
 
 
@@ -459,7 +577,26 @@ indexWindow.getAnuncis();
 var isAndroid = Ti.Platform.osname === 'android';
 //Afegim listener a l'scroll per al final cargar mes anuncis
 
+ function testclick(e){
+	alert('Clicked ' + '\'' + e.source.id + '\'');
+}
+
+function doClick(e) {
+    alert($.label.text);
+}
+
+var menuOpen = false;
+
+function toggle() {
+	return isVisible ? indexWindow.hideMenuUp() : indexWindow.showMenuUp();
+}
  
+optionsHeight = $.options.children.length * $.options.children[0].height;
+headerHeight = $.header.height;
+ 
+$.options.applyProperties({
+	top: headerHeight
+});
 $.mainList.addEventListener('scroll', function(evt) {
     // If we're on android: our total number of rows is less than the first visible row plus the total number of visible
     // rows plus 3 buffer rows, we need to load more rows!
@@ -479,10 +616,16 @@ $.mainList.addEventListener('scroll', function(evt) {
 				indexWindow.getSearchAnuncis();
 		}else{
 				indexWindow.getAnuncis();		
-		}	
-			
+		}				
     }
- 
+    
+    if ((isAndroid && (3< evt.firstVisibleItem ) )
+            || (!isAndroid && (evt.contentOffset.y  > 200))) {
+      // tell our interval (above) to load more rows
+      indexWindow.hideMenuUp();				
+    }else{
+      indexWindow.showMenuUp();
+    }
 });
  
 
