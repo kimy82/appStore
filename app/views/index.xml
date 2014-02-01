@@ -24,7 +24,7 @@
 		
 		<View id="menu" onClick="indexWindow.showhidemenu">
 			<Label id="userLabel" class="userLabel" onClick="indexWindow.changeUserData" ></Label>
-			<View top="30"  id="viewbuttons" >
+			<View top="30" height="300" layout="vertical" id="viewbuttons" >
 				<TextField id="distance" ></TextField>
 				<Button id="search" title="busca" onClick="indexWindow.searchAnuncis" ></Button>
 			</View>			

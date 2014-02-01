@@ -8,7 +8,7 @@
 		<TextField id="preu" hintText="Preu" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="#336699" top="130" left="10" width="250" height="60" />
 		
 		
-		<Button id="saveAnunci" top="190" left="50" width="Ti.UI.SIZE" onClick="anunci.save" />
+		<Button id="saveAnunci" top="190" left="50" width="Ti.UI.SIZE" onClick="anunci.saveAnunciGetCity" />
 		<Button id="addFotoFromGaleria" left="150" top="190" layout="100" width="Ti.UI.SIZE" onClick="anunci.addFotoFromGalery" />
 		<Button id="addFotoFromCamera" left="270" top="190" layout="100" width="Ti.UI.SIZE" onClick="anunci.addFotoFromCamera" />
 		<Button id="closeCreateAnunci" top="190" left="380" title="X" width="Ti.UI.SIZE" onClick="anunci.close" />

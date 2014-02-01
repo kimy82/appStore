@@ -120,6 +120,8 @@ function Controller() {
     }
     $.__views.viewbuttons = Ti.UI.createView({
         top: "30",
+        height: "300",
+        layout: "vertical",
         id: "viewbuttons"
     });
     $.__views.menu.add($.__views.viewbuttons);
@@ -372,7 +374,7 @@ function Controller() {
     Ti.include("/js/principal.js");
     Ti.include("/js/facebook.js");
     Ti.include("/js/server.js");
-    server._init("192.168.1.69:8080/AppStore");
+    server._init("192.168.1.72:8080/AppStore");
     var headerHeight, optionsHeight, isVisible = (arguments[0] || {}, false);
     var buttonRegistre = Titanium.UI.createButton({
         title: "Registra 't",
@@ -463,6 +465,7 @@ function Controller() {
             rows.push(rowLoading);
             $.mainList.setData(rows);
             indexWindow.numAnuncis = 1;
+            loading = true;
         },
         _removeLoading: function() {
             if (0 == indexWindow.numAnuncis) {
@@ -612,7 +615,7 @@ function Controller() {
                 });
                 var labelSit = Ti.UI.createLabel({
                     id: "situacion",
-                    text: "distancia: " + parseFloat(json[intImage].distance).toFixed(2),
+                    text: "Situacio: " + json[intImage].city + " (" + parseFloat(json[intImage].distance).toFixed(2) + "Km)",
                     bottom: 5,
                     left: 10,
                     color: "#8e8e93",
@@ -774,11 +777,11 @@ function Controller() {
             if (menuOpen) {
                 moveTo = "0";
                 menuOpen = false;
-                show();
+                indexWindow.showMenuUp();
             } else {
                 moveTo = "250dp";
                 menuOpen = true;
-                hide();
+                indexWindow.hideMenuUp();
             }
             $.mainContainer.width = Ti.Platform.displayCaps.platformWidth;
             $.mainContainer.animate({
@@ -815,7 +818,7 @@ function Controller() {
         indexWindow.geolocationInit();
     });
     utilsDB._init($, mapview);
-    indexWindow._init("192.168.1.69:8080/AppStore");
+    indexWindow._init("192.168.1.72:8080/AppStore");
     $.viewbuttons.add(buttonRegistre);
     $.viewbuttons.add(button);
     utilsDB.addAnunciButton();

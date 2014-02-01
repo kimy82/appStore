@@ -8,6 +8,7 @@ var anunci = {
 	_init: function(ip){
 		anunci.id='null';
 		anunci.ipserver=ip;
+		anunci.city="";
 	},
 	setAnunciId: function(id){
 		anunci.id=id;
@@ -20,9 +21,15 @@ var anunci = {
 		}).show();
 		
 	},
+	saveAnunciGetCity: function(){			
+		var user =_executionsDB.getUser();	
+		anunci.getCity(geo.latitude,geo.longitude);										
+	},
 	save: function(){			
 		var user =_executionsDB.getUser();
-		var url = "http://"+server.ip+"/rest/service/userService/saveAnunci?titol=" +$.titol.value+ "&descripcio=" +$.descripcio.value+"&preu="+$.preu.value+"&idAnunci="+anunci.id+"&lon="+geo.longitude+"&lat="+geo.latitude+"&iduser="+user.getId();
+		
+		var url = "http://"+server.ip+"/rest/service/userService/saveAnunci?titol=" +$.titol.value+ "&descripcio=" +$.descripcio.value+"&preu="+$.preu.value+"&idAnunci="+anunci.id+
+		"&lon="+geo.longitude+"&lat="+geo.latitude+"&iduser="+user.getId()+"&city="+anunci.city;
 							var client = Ti.Network.createHTTPClient({
 								// function called when the response data is available
 								onload : function(e) {
@@ -178,6 +185,27 @@ var anunci = {
 		
 		$.mapViewAnunci.add(map);
 	},
+	getCity: function(lat,lon){
+		var addrUrl = "http://maps.googleapis.com/maps/api/geocode/json?sensor=true&latlng="+lat+","+lon;
+		/* web-service call */
+		var addrReq = Titanium.Network.createHTTPClient();
+		addrReq.open("GET",addrUrl);
+		addrReq.send(null);
+		  
+		addrReq.onload = function()
+		{
+		    var response = JSON.parse(this.responseText);
+		  
+		    if(response.status == "OK"){
+			                 anunci.city = response.results[0].address_components[2].long_name;
+		                    anunci.save();
+		    }else{
+			        showAlert('','Unable to find Address');
+			    }
+		  
+		};
+		
+	},
 };
 
 //Scroll view for fotos
@@ -193,7 +221,7 @@ var scrollFotosAnunci = Ti.UI.createScrollView({
 $.fotosView.add(scrollFotosAnunci);
 //fi scroll view
 
-anunci._init('192.168.1.69:8080/AppStore');
+anunci._init('192.168.1.72:8080/AppStore');
 $.addAnunci.backgroundColor="#CCCCCC";
 $.saveAnunci.setTitle('guarda');
 $.addFotoFromGaleria.setTitle('add Galeria');

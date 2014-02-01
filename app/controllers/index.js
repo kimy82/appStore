@@ -2,7 +2,7 @@ Ti.include("/js/md5.js");
 Ti.include("/js/principal.js");
 Ti.include("/js/facebook.js");
 Ti.include("/js/server.js"); 
-server._init("192.168.1.69:8080/AppStore");
+server._init("192.168.1.72:8080/AppStore");
 
 var args = arguments[0] || {},
   isVisible = false,
@@ -293,7 +293,7 @@ var indexWindow ={
 						    });	
 						    var labelSit = Ti.UI.createLabel({
 						    	id:"situacion",						    	
-						    	text: "distancia: "+parseFloat(json[intImage].distance).toFixed(2),
+						    	text: "Situacio: "+json[intImage].city+" ("+parseFloat(json[intImage].distance).toFixed(2)+"Km)",
 						    	bottom: 5,
 								left: 10,
 								color: "#8e8e93",
@@ -474,11 +474,11 @@ var indexWindow ={
 		if (!menuOpen){
 			moveTo="250dp";
 			menuOpen=true;
-			hide();
+			indexWindow.hideMenuUp();
 		}else{
 			moveTo="0";
 			menuOpen=false;
-			show();
+			indexWindow.showMenuUp();
 		}
 		
 		// have to set the current width of the "main" view before moving it so it doesn't get squeezed
@@ -534,7 +534,7 @@ Titanium.Geolocation.addEventListener('location',function(){
 utilsDB._init($,mapview);
 
 //Inicialitzem el server i el controlador de la pantalla
-indexWindow._init("192.168.1.69:8080/AppStore");
+indexWindow._init("192.168.1.72:8080/AppStore");
 
 
 

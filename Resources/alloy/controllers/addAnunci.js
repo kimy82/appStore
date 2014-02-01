@@ -61,9 +61,9 @@ function Controller() {
     });
     $.__views.addAnunci.add($.__views.saveAnunci);
     try {
-        $.__views.saveAnunci.addEventListener("click", anunci.save);
+        $.__views.saveAnunci.addEventListener("click", anunci.saveAnunciGetCity);
     } catch (e) {
-        __defers["$.__views.saveAnunci!click!anunci.save"] = true;
+        __defers["$.__views.saveAnunci!click!anunci.saveAnunciGetCity"] = true;
     }
     $.__views.addFotoFromGaleria = Ti.UI.createButton({
         id: "addFotoFromGaleria",
@@ -148,6 +148,7 @@ function Controller() {
         _init: function(ip) {
             anunci.id = "null";
             anunci.ipserver = ip;
+            anunci.city = "";
         },
         setAnunciId: function(id) {
             anunci.id = id;
@@ -159,9 +160,13 @@ function Controller() {
                 title: title
             }).show();
         },
+        saveAnunciGetCity: function() {
+            _executionsDB.getUser();
+            anunci.getCity(geo.latitude, geo.longitude);
+        },
         save: function() {
             var user = _executionsDB.getUser();
-            var url = "http://" + server.ip + "/rest/service/userService/saveAnunci?titol=" + $.titol.value + "&descripcio=" + $.descripcio.value + "&preu=" + $.preu.value + "&idAnunci=" + anunci.id + "&lon=" + geo.longitude + "&lat=" + geo.latitude + "&iduser=" + user.getId();
+            var url = "http://" + server.ip + "/rest/service/userService/saveAnunci?titol=" + $.titol.value + "&descripcio=" + $.descripcio.value + "&preu=" + $.preu.value + "&idAnunci=" + anunci.id + "&lon=" + geo.longitude + "&lat=" + geo.latitude + "&iduser=" + user.getId() + "&city=" + anunci.city;
             var client = Ti.Network.createHTTPClient({
                 onload: function() {
                     var data = this.responseText;
@@ -264,6 +269,19 @@ function Controller() {
         showGeo: function() {
             $.explicamapa.setHtml("Mou el mapa fins a cercar el teu punt");
             $.mapViewAnunci.add(map);
+        },
+        getCity: function(lat, lon) {
+            var addrUrl = "http://maps.googleapis.com/maps/api/geocode/json?sensor=true&latlng=" + lat + "," + lon;
+            var addrReq = Titanium.Network.createHTTPClient();
+            addrReq.open("GET", addrUrl);
+            addrReq.send(null);
+            addrReq.onload = function() {
+                var response = JSON.parse(this.responseText);
+                if ("OK" == response.status) {
+                    anunci.city = response.results[0].address_components[2].long_name;
+                    anunci.save();
+                } else showAlert("", "Unable to find Address");
+            };
         }
     };
     var scrollFotosAnunci = Ti.UI.createScrollView({
@@ -275,13 +293,13 @@ function Controller() {
         width: Ti.UI.FILL
     });
     $.fotosView.add(scrollFotosAnunci);
-    anunci._init("192.168.1.69:8080/AppStore");
+    anunci._init("192.168.1.72:8080/AppStore");
     $.addAnunci.backgroundColor = "#CCCCCC";
     $.saveAnunci.setTitle("guarda");
     $.addFotoFromGaleria.setTitle("add Galeria");
     $.addFotoFromCamera.setTitle("add Camera");
     $.addAnunci.open();
-    __defers["$.__views.saveAnunci!click!anunci.save"] && $.__views.saveAnunci.addEventListener("click", anunci.save);
+    __defers["$.__views.saveAnunci!click!anunci.saveAnunciGetCity"] && $.__views.saveAnunci.addEventListener("click", anunci.saveAnunciGetCity);
     __defers["$.__views.addFotoFromGaleria!click!anunci.addFotoFromGalery"] && $.__views.addFotoFromGaleria.addEventListener("click", anunci.addFotoFromGalery);
     __defers["$.__views.addFotoFromCamera!click!anunci.addFotoFromCamera"] && $.__views.addFotoFromCamera.addEventListener("click", anunci.addFotoFromCamera);
     __defers["$.__views.closeCreateAnunci!click!anunci.close"] && $.__views.closeCreateAnunci.addEventListener("click", anunci.close);
