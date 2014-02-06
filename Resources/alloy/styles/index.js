@@ -9,21 +9,22 @@ module.exports = [ {
     }
 }, {
     isClass: true,
-    priority: 10000.0014,
-    key: "option",
+    priority: 10000.0037,
+    key: "text_menu",
     style: {
-        top: 0,
-        right: 0,
-        left: 0,
-        height: 90,
-        backgroundColor: "white"
+        color: "#444444",
+        bottom: "5dp",
+        font: {
+            fontSize: "9dp",
+            fontFamily: "Roboto-Light"
+        }
     }
 }, {
     isClass: true,
-    priority: 10000.0037,
+    priority: 10000.0038,
     key: "tbButton",
     style: {
-        width: "24.5%"
+        width: "20%"
     }
 }, {
     isId: true,
@@ -42,29 +43,18 @@ module.exports = [ {
     style: {
         height: Ti.UI.FILL,
         width: Ti.UI.FILL,
-        backgroundColor: "#dbdbdb",
+        backgroundColor: "#eaeaea",
         left: 0,
         layout: "vertical"
     }
 }, {
     isId: true,
     priority: 100000.0009,
-    key: "mainTop",
-    style: {
-        height: "90dp",
-        width: Ti.UI.FILL,
-        left: 0,
-        top: 0,
-        zIndex: 30
-    }
-}, {
-    isId: true,
-    priority: 100000.001,
     key: "header",
     style: {
-        backgroundColor: "#dbdbdb",
+        backgroundImage: "/header.png",
         width: Ti.UI.FILL,
-        height: "30dp",
+        height: "50dp",
         top: 0,
         right: 0,
         left: 0,
@@ -73,11 +63,20 @@ module.exports = [ {
     }
 }, {
     isId: true,
+    priority: 100000.001,
+    key: "logo",
+    style: {
+        image: "/logo.png",
+        height: "25dp",
+        left: "10dp"
+    }
+}, {
+    isId: true,
     priority: 100000.0011,
     key: "int_header",
     style: {
         width: Ti.UI.FILL,
-        height: "30dp"
+        height: "50dp"
     }
 }, {
     isId: true,
@@ -93,51 +92,9 @@ module.exports = [ {
 }, {
     isId: true,
     priority: 100000.0013,
-    key: "options",
-    style: {
-        right: 0,
-        left: 0,
-        height: "90dp",
-        layout: "horitzontal",
-        bubbleParent: false,
-        zIndex: 10,
-        width: Ti.UI.FILL
-    }
-}, {
-    isId: true,
-    priority: 100000.0015,
-    key: "listRowFirst",
-    style: {
-        height: "92dp",
-        selectionStyle: "NONE",
-        className: "row",
-        showVerticalScrollIndicator: false,
-        objName: "row"
-    }
-}, {
-    isId: true,
-    priority: 100000.0016,
-    key: "rowContainerFirst",
-    style: {
-        height: "80dp",
-        width: Ti.UI.FILL,
-        top: "10dp",
-        layout: "horizontal"
-    }
-}, {
-    isId: true,
-    priority: 100000.0017,
-    key: "todosFirst",
-    style: {
-        width: Ti.UI.FILL,
-        left: 0
-    }
-}, {
-    isId: true,
-    priority: 100000.0018,
     key: "mainList",
     style: {
-        backgroundColor: "#dbdbdb",
+        backgroundColor: "#eaeaea",
         separatorStyle: "NONE",
         height: Ti.UI.SIZE,
         top: 0,
@@ -151,7 +108,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0019,
+    priority: 100000.0014,
     key: "listRow",
     style: {
         height: "107dp",
@@ -162,7 +119,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.002,
+    priority: 100000.0015,
     key: "rowContainer",
     style: {
         height: "97dp",
@@ -172,7 +129,28 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0021,
+    priority: 100000.0016,
+    key: "listRow_one",
+    style: {
+        height: "57dp",
+        selectionStyle: "NONE",
+        className: "row",
+        showVerticalScrollIndicator: false,
+        objName: "row"
+    }
+}, {
+    isId: true,
+    priority: 100000.0017,
+    key: "rowContainer_one",
+    style: {
+        height: "47dp",
+        width: Ti.UI.FILL,
+        top: "10dp",
+        layout: "horizontal"
+    }
+}, {
+    isId: true,
+    priority: 100000.0018,
     key: "todos",
     style: {
         width: Ti.UI.FILL,
@@ -182,7 +160,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0022,
+    priority: 100000.0019,
     key: "foto",
     style: {
         width: "97dp",
@@ -190,11 +168,20 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0023,
+    priority: 100000.002,
+    key: "foto_one",
+    style: {
+        width: "97dp",
+        left: "0dp",
+        backgroundColor: "#d9d9d9"
+    }
+}, {
+    isId: true,
+    priority: 100000.0021,
     key: "sold",
     style: {
         top: "5dp",
-        right: "10dp",
+        right: "5dp",
         height: Ti.UI.SIZE,
         image: "/sold.png",
         width: Ti.UI.SIZE,
@@ -202,7 +189,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0024,
+    priority: 100000.0022,
     key: "profilePic",
     style: {
         width: Ti.UI.FILL,
@@ -211,7 +198,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0025,
+    priority: 100000.0023,
     key: "profilePic2",
     style: {
         width: Ti.UI.FILL,
@@ -220,7 +207,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0026,
+    priority: 100000.0024,
     key: "profilePic3",
     style: {
         width: Ti.UI.FILL,
@@ -229,7 +216,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0027,
+    priority: 100000.0025,
     key: "profilePic4",
     style: {
         width: Ti.UI.FILL,
@@ -238,7 +225,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0028,
+    priority: 100000.0026,
     key: "totm",
     style: {
         width: Ti.UI.FILL,
@@ -246,7 +233,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0029,
+    priority: 100000.0027,
     key: "con",
     style: {
         left: 0,
@@ -254,7 +241,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.003,
+    priority: 100000.0028,
     key: "container_textes",
     style: {
         left: 0,
@@ -263,16 +250,41 @@ module.exports = [ {
     }
 }, {
     isId: true,
+    priority: 100000.0029,
+    key: "productName_one",
+    style: {
+        top: 5,
+        left: 10,
+        color: "#7f7f7f",
+        font: {
+            fontSize: "18dp",
+            fontFamily: "RobotoCondensed-Bold"
+        }
+    }
+}, {
+    isId: true,
+    priority: 100000.003,
+    key: "description_one",
+    style: {
+        top: 33,
+        left: 10,
+        color: "#7f7f7f",
+        font: {
+            fontSize: "14dp",
+            fontFamily: "Roboto-Light"
+        }
+    }
+}, {
+    isId: true,
     priority: 100000.0031,
     key: "productName",
     style: {
         top: 5,
         left: 10,
-        color: "#333333",
-        height: Ti.UI.SIZE,
+        color: "#444444",
         font: {
             fontSize: "16dp",
-            fontFamily: "RobotoCondensed-Bold"
+            fontFamily: "Roboto-Light"
         }
     }
 }, {
@@ -282,7 +294,7 @@ module.exports = [ {
     style: {
         top: 33,
         left: 10,
-        color: "#8e8e93",
+        color: "#7f7f7f",
         font: {
             fontSize: "14dp",
             fontFamily: "Roboto-Light"
@@ -308,7 +320,7 @@ module.exports = [ {
     style: {
         bottom: 5,
         left: 10,
-        color: "#8e8e93",
+        color: "#b4b4b5",
         font: {
             fontSize: "14dp",
             fontFamily: "Roboto-Light"
@@ -329,46 +341,59 @@ module.exports = [ {
     key: "footer",
     style: {
         width: Ti.UI.FILL,
-        height: "40dp",
-        backgroundColor: "#dbdbdb",
+        height: "50dp",
+        backgroundImage: "/back_footer.png",
         bottom: 0,
         layout: "horizontal"
     }
 }, {
     isId: true,
-    priority: 100000.0038,
+    priority: 100000.0039,
     key: "icone",
     style: {
+        bottom: "15dp",
         width: "30dp",
-        image: "/home.png"
+        image: "/menu.png"
     }
 }, {
     isId: true,
-    priority: 100000.0039,
+    priority: 100000.004,
     key: "icone1",
     style: {
+        bottom: "15dp",
         width: "30dp",
         image: "/user.png"
     }
 }, {
     isId: true,
-    priority: 100000.004,
+    priority: 100000.0041,
     key: "icone2",
     style: {
-        width: "30dp",
-        image: "/upload.png"
-    }
-}, {
-    isId: true,
-    priority: 100000.0041,
-    key: "icone3",
-    style: {
+        bottom: "15dp",
         width: "30dp",
         image: "/chat.png"
     }
 }, {
     isId: true,
     priority: 100000.0042,
+    key: "icone3",
+    style: {
+        bottom: "15dp",
+        width: "30dp",
+        image: "/upload.png"
+    }
+}, {
+    isId: true,
+    priority: 100000.0043,
+    key: "icone4",
+    style: {
+        bottom: "15dp",
+        width: "30dp",
+        image: "/cerca.png"
+    }
+}, {
+    isId: true,
+    priority: 100000.0044,
     key: "sep",
     style: {
         width: 1,
@@ -377,7 +402,21 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0043,
+    priority: 100000.0045,
+    key: "productNamea",
+    style: {
+        top: 5,
+        left: 10,
+        color: "#333333",
+        height: Ti.UI.SIZE,
+        font: {
+            fontSize: "16dp",
+            fontFamily: "RobotoCondensed-Bold"
+        }
+    }
+}, {
+    isId: true,
+    priority: 100000.0046,
     key: "descriptiona",
     style: {
         top: 5,
@@ -391,7 +430,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0044,
+    priority: 100000.0047,
     key: "pricea",
     style: {
         bottom: 5,
@@ -405,7 +444,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0045,
+    priority: 100000.0048,
     key: "situaciona",
     style: {
         bottom: 5,
@@ -419,7 +458,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0046,
+    priority: 100000.0049,
     key: "trure",
     style: {
         left: 0,
@@ -431,7 +470,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0047,
+    priority: 100000.005,
     key: "last",
     style: {
         height: "40dp",
@@ -440,7 +479,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0048,
+    priority: 100000.0051,
     key: "rowContainerTwo",
     style: {
         height: "40dp",
@@ -450,7 +489,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0049,
+    priority: 100000.0052,
     key: "con_footer",
     style: {
         height: "40dp",
@@ -459,7 +498,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.005,
+    priority: 100000.0053,
     key: "grayLine",
     style: {
         height: "1dp",
@@ -470,7 +509,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0051,
+    priority: 100000.0054,
     key: "listRowTwo",
     style: {
         height: "40dp",

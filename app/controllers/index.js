@@ -2,13 +2,8 @@ Ti.include("/js/md5.js");
 Ti.include("/js/principal.js");
 Ti.include("/js/facebook.js");
 Ti.include("/js/server.js"); 
-server._init("192.168.1.72:8080/AppStore");
-
-var args = arguments[0] || {},
-  isVisible = false,
-  headerHeight,
-  optionsHeight;
-  
+server._init("192.168.1.10:8080/AppStore");
+var args = arguments[0] || {};
 //Butoon de registre
 var buttonRegistre = Titanium.UI.createButton({
    title: 'Registra \'t',
@@ -17,7 +12,19 @@ var buttonRegistre = Titanium.UI.createButton({
    height: 50,
    id: 'buttonRegistre'
 });
-
+function testclickar(e){
+	indexWindow.openCreateAccount();
+	
+}
+function testclickare(e){
+	
+	indexWindow.logOut();
+	
+}
+function testclickaren(e){
+	
+	utilsDB.addAnunciButton();
+}
 buttonRegistre.addEventListener('click',function(e){
    indexWindow.openCreateAccount();
 });
@@ -42,8 +49,6 @@ principal._init($,buttonRegistre,button,buttonLogout);
 
 Ti.include("/js/dataBase.js");
 Ti.include("/js/network.js");
-
-
 
 var indexWindow ={
 	_init: function(ip){
@@ -472,50 +477,42 @@ var indexWindow ={
 	},
 	showhidemenu: function(e){
 		if (!menuOpen){
-			moveTo="250dp";
-			menuOpen=true;
-			indexWindow.hideMenuUp();
-		}else{
-			moveTo="0";
-			menuOpen=false;
-			indexWindow.showMenuUp();
-		}
-		
-		// have to set the current width of the "main" view before moving it so it doesn't get squeezed
-		// try commenting out the following line and setting the "newLeft" to 200 instead of 
-		// 300 to see what I mean
-		$.mainContainer.width=Ti.Platform.displayCaps.platformWidth;
-		$.mainContainer.animate({
-			left:moveTo,
-			duration:100
-		});
+		moveTo="300dp";
+		menuOpen=true;
+	}else{
+		moveTo="0";
+		menuOpen=false;
+	}
+	
+	// have to set the current width of the "main" view before moving it so it doesn't get squeezed
+	// try commenting out the following line and setting the "newLeft" to 200 instead of 
+	// 300 to see what I mean
+	$.main.width=Ti.Platform.displayCaps.platformWidth;
+	$.main.animate({
+		left:moveTo,
+		duration:100
+	});
 	},		
-	showMenuUp: function() {
-		isVisible = true;
-		
-		$.mainContainer.height = Ti.UI.FILL;
-		$.options.animate({
-			top: headerHeight,
-			duration:100
-		});
-		
-		
-		return;
-	},
-	hideMenuUp: function() {
-		isVisible = false;
-		
-		$.options.animate({
-			top: -optionsHeight,
-			duration:100,
-			zIndex:0
-		}, function () {
-			$.mainContainer.height = Ti.UI.FILL;
-		});
-		return;
-	},
+	
 };
-
+function showhidemenu(e){
+	if (!menuOpen){
+		moveTo="300dp";
+		menuOpen=true;
+	}else{
+		moveTo="0";
+		menuOpen=false;
+	}
+	
+	// have to set the current width of the "main" view before moving it so it doesn't get squeezed
+	// try commenting out the following line and setting the "newLeft" to 200 instead of 
+	// 300 to see what I mean
+	$.main.width=Ti.Platform.displayCaps.platformWidth;
+	$.main.animate({
+		left:moveTo,
+		duration:100
+	});
+}
 //Params per la geolocalitzacio
 Titanium.Geolocation.purpose = "Recieve ggggUser Location";
 Titanium.Geolocation.accuracy = Titanium.Geolocation.ACCURACY_BEST;
@@ -534,7 +531,7 @@ Titanium.Geolocation.addEventListener('location',function(){
 utilsDB._init($,mapview);
 
 //Inicialitzem el server i el controlador de la pantalla
-indexWindow._init("192.168.1.72:8080/AppStore");
+indexWindow._init("192.168.1.10:8080/AppStore");
 
 
 
@@ -548,7 +545,7 @@ $.viewbuttons.add(button);
 utilsDB.addAnunciButton();
 
 //Boto hidden que s'utilitza per refrescar el llistat d'anuncis
-$.viewrefreshscrollview.hide();
+
 
 function testclick(){
 	alert("er");
@@ -587,16 +584,7 @@ function doClick(e) {
 
 var menuOpen = false;
 
-function toggle() {
-	return isVisible ? indexWindow.hideMenuUp() : indexWindow.showMenuUp();
-}
- 
-optionsHeight = $.options.children.length * $.options.children[0].height;
-headerHeight = $.header.height;
- 
-$.options.applyProperties({
-	top: headerHeight
-});
+
 $.mainList.addEventListener('scroll', function(evt) {
     // If we're on android: our total number of rows is less than the first visible row plus the total number of visible
     // rows plus 3 buffer rows, we need to load more rows!
@@ -619,13 +607,7 @@ $.mainList.addEventListener('scroll', function(evt) {
 		}				
     }
     
-    if ((isAndroid && (3< evt.firstVisibleItem ) )
-            || (!isAndroid && (evt.contentOffset.y  > 200))) {
-      // tell our interval (above) to load more rows
-      indexWindow.hideMenuUp();				
-    }else{
-      indexWindow.showMenuUp();
-    }
+    
 });
  
 
