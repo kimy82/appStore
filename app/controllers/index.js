@@ -14,19 +14,7 @@ var buttonRegistre = Titanium.UI.createButton({
     height : 50,
     id : 'buttonRegistre'
 });
-function testclickar(e){
-	indexWindow.openCreateAccount();
-	
-}
-function testclickare(e){
-	
-	indexWindow.logOut();
-	
-}
-function testclickaren(e){
-	
-	utilsDB.addAnunciButton();
-}
+
 buttonRegistre.addEventListener('click', function(e) {
     indexWindow.openCreateAccount();
 });
@@ -79,10 +67,9 @@ var indexWindow = {
         win.open();
     },
     getAnuncis : function() {
-            Titanium.Geolocation.getCurrentPosition(function(e) {
-                latitude = e.coords.latitude;
-                longitude = e.coords.longitude;
-                var url = "http://" + indexWindow.ip + "/AppStore/rest/service/userService/getAnuncis?init=" + indexWindow.init+"&lat="+latitude+"&lon="+longitude;
+ 
+        
+                var url = "http://" + indexWindow.ip + "/rest/service/userService/getAnuncis?init=" + indexWindow.init+"&lat="+geo.latitude+"&lon="+geo.longitude;
                 var client = Ti.Network.createHTTPClient({
                     // function called when the response data is available
                     onload : function(e) {
@@ -95,7 +82,7 @@ var indexWindow = {
                     // function called when an error occurs, including a timeout
                     onerror : function(e) {
                         Ti.UI.createAlertDialog({
-                            message : 'Error recuperant Anuncis',
+                            message : 'Error recuperant Anuncis'+e,
                             ok : 'KO',
                             title : 'ERROR'
                         }).show();
@@ -105,9 +92,10 @@ var indexWindow = {
                 // Prepare the connection.
                 client.open("GET", url);
                 // Send the request.
-                client.send();     
-            });
-     
+                client.send();
+      
+            
+        
     },
     refreshAnuncis : function() {
         loading = true;
@@ -147,6 +135,7 @@ var indexWindow = {
         }
     },
     _setLastRow : function() {
+
         var row = Ti.UI.createTableViewRow({
             id : "listRowTwo",
             height : "40dp",
@@ -537,9 +526,7 @@ var indexWindow = {
 
     },
 };
-
 server.setParent(indexWindow);
-
 //Params per la geolocalitzacio
 Titanium.Geolocation.purpose = "Recieve ggggUser Location";
 Titanium.Geolocation.accuracy = Titanium.Geolocation.ACCURACY_BEST;
@@ -560,7 +547,6 @@ utilsDB._init($, mapview);
 //Inicialitzem el server i el controlador de la pantalla
 indexWindow._init("www.alexmanydev.com/AppStore");
 
-
 //Afegim buton de registre
 $.viewbuttons.add(buttonRegistre);
 
@@ -571,13 +557,11 @@ $.viewbuttons.add(button);
 utilsDB.addAnunciButton();
 
 //Boto hidden que s'utilitza per refrescar el llistat d'anuncis
-
+$.viewrefreshscrollview.hide();
 
 function testclick() {
     alert("er");
 }
-
-
 
 //codi per el control de l'scroll quan arribem al final carrega més anuncis
 //inidica si esta carrregant imatges
@@ -606,6 +590,9 @@ var isAndroid = Ti.Platform.osname === 'android';
 function testclick(e) {
     alert('Clicked ' + '\'' + e.source.id + '\'');
 }
+function testclick(e) {
+    alert('Clicked ' + '\'' + e.source.id + '\'');
+}
 
 function doClick(e) {
     alert($.label.text);
@@ -623,7 +610,6 @@ headerHeight = $.header.height;
 $.options.applyProperties({
     top : headerHeight
 });
-
 $.mainList.addEventListener('scroll', function(evt) {
     // If we're on android: our total number of rows is less than the first visible row plus the total number of visible
     // rows plus 3 buffer rows, we need to load more rows!
@@ -651,7 +637,6 @@ $.mainList.addEventListener('scroll', function(evt) {
     } else {
         indexWindow.showMenuUp();
     }
-
 });
 
 //PUSH NOTIFICATIONS OBJECT
