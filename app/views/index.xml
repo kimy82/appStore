@@ -5,7 +5,7 @@
 			<View top="30" height="300" layout="vertical" id="viewbuttons" >
 				<TextField id="distance" ></TextField>
 				<Button id="search" title="busca" onClick="indexWindow.searchAnuncis" ></Button>
-			</View>			
+			</View>
 		</View>
 		<View  height="10" layout="horizontal" top="0"  id="viewrefreshscrollview" >
 			<Button id="refreshscrollview" onClick="indexWindow.refreshAnuncis"></Button>
