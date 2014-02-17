@@ -4,7 +4,6 @@ Ti.include("/js/facebook.js");
 Ti.include("/js/server.js");
 server._init("www.alexmanydev.com/AppStore");
 
-var args = arguments[0] || {}, isVisible = false, headerHeight, optionsHeight;
 
 //Butoon de registre
 var buttonRegistre = Titanium.UI.createButton({
@@ -14,7 +13,19 @@ var buttonRegistre = Titanium.UI.createButton({
     height : 50,
     id : 'buttonRegistre'
 });
-
+function testclickar(e){
+	indexWindow.openCreateAccount();
+	
+}
+function testclickare(e){
+	
+	indexWindow.logOut();
+	
+}
+function testclickaren(e){
+	
+	indexWindow.openAddAnunci();
+}
 buttonRegistre.addEventListener('click', function(e) {
     indexWindow.openCreateAccount();
 });
@@ -138,22 +149,22 @@ var indexWindow = {
 
         var row = Ti.UI.createTableViewRow({
             id : "listRowTwo",
-            height : "40dp",
+            height : "60dp",
             selectionStyle : "NONE",
             className : "listRow",
         });
 
         var viewRow = Ti.UI.createView({
             id : "rowContainerTwo",
-            height : "40dp",
+            height : "60dp",
             width : Ti.UI.FILL,
-            backgroundColor : "#fff",
+            backgroundColor : "#eaeaea",
             layout : "horizontal"
         });
         var viewTodos = Ti.UI.createView({
             id : "todos",
             width : Ti.UI.FILL,
-            backgroundColor : "#ffffff",
+            backgroundColor : "#eaeaea",
             HighlightedColor : '#333333',
             left : 0
         });
@@ -478,49 +489,8 @@ var indexWindow = {
         });
 
     },
-    showhidemenu : function(e) {
-        if (!menuOpen) {
-            moveTo = "250dp";
-            menuOpen = true;
-            indexWindow.hideMenuUp();
-        } else {
-            moveTo = "0";
-            menuOpen = false;
-            indexWindow.showMenuUp();
-        }
-
-        // have to set the current width of the "main" view before moving it so it doesn't get squeezed
-        // try commenting out the following line and setting the "newLeft" to 200 instead of
-        // 300 to see what I mean
-        $.mainContainer.width = Ti.Platform.displayCaps.platformWidth;
-        $.mainContainer.animate({
-            left : moveTo,
-            duration : 100
-        });
-    },
-    showMenuUp : function() {
-        isVisible = true;
-
-        $.mainContainer.height = Ti.UI.FILL;
-        $.options.animate({
-            top : headerHeight,
-            duration : 100
-        });
-
-        return;
-    },
-    hideMenuUp : function() {
-        isVisible = false;
-
-        $.options.animate({
-            top : -optionsHeight,
-            duration : 100,
-            zIndex : 0
-        }, function() {
-            $.mainContainer.height = Ti.UI.FILL;
-        });
-        return;
-    },
+    
+ 
     registerDevice : function() {
         //pushnotifications.pushNotificationsRegister("869481768803", "2525C-EAA3F", {
 
@@ -540,7 +510,26 @@ Titanium.Geolocation.addEventListener('location', function() {
     indexWindow.geolocationInit();
 
 });
+function showhidemenu (e) {
+        if (!menuOpen) {
+            moveTo = "250dp";
+            menuOpen = true;
+            indexWindow.hideMenuUp();
+        } else {
+            moveTo = "0";
+            menuOpen = false;
+            indexWindow.showMenuUp();
+        }
 
+        // have to set the current width of the "main" view before moving it so it doesn't get squeezed
+        // try commenting out the following line and setting the "newLeft" to 200 instead of
+        // 300 to see what I mean
+        $.mainContainer.width = Ti.Platform.displayCaps.platformWidth;
+        $.mainContainer.animate({
+            left : moveTo,
+            duration : 100
+        });
+};
 //Accions amb la base de dates
 utilsDB._init($, mapview);
 
@@ -600,16 +589,6 @@ function doClick(e) {
 
 var menuOpen = false;
 
-function toggle() {
-    return isVisible ? indexWindow.hideMenuUp() : indexWindow.showMenuUp();
-}
-
-optionsHeight = $.options.children.length * $.options.children[0].height;
-headerHeight = $.header.height;
-
-$.options.applyProperties({
-    top : headerHeight
-});
 $.mainList.addEventListener('scroll', function(evt) {
     // If we're on android: our total number of rows is less than the first visible row plus the total number of visible
     // rows plus 3 buffer rows, we need to load more rows!
@@ -633,9 +612,9 @@ $.mainList.addEventListener('scroll', function(evt) {
 
     if ((isAndroid && (3 < evt.firstVisibleItem ) ) || (!isAndroid && (evt.contentOffset.y > 200))) {
         // tell our interval (above) to load more rows
-        indexWindow.hideMenuUp();
+        
     } else {
-        indexWindow.showMenuUp();
+        
     }
 });
 

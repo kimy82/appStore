@@ -6,24 +6,29 @@ function Controller() {
         indexWindow.logOut();
     }
     function testclickaren() {
-        utilsDB.addAnunciButton();
+        indexWindow.openAddAnunci();
     }
     function showhidemenu() {
         if (menuOpen) {
             moveTo = "0";
             menuOpen = false;
+            indexWindow.showMenuUp();
         } else {
-            moveTo = "300dp";
+            moveTo = "250dp";
             menuOpen = true;
+            indexWindow.hideMenuUp();
         }
-        $.main.width = Ti.Platform.displayCaps.platformWidth;
-        $.main.animate({
+        $.mainContainer.width = Ti.Platform.displayCaps.platformWidth;
+        $.mainContainer.animate({
             left: moveTo,
             duration: 100
         });
     }
     function testclick() {
         alert("er");
+    }
+    function testclick(e) {
+        alert("Clicked '" + e.source.id + "'");
     }
     function testclick(e) {
         alert("Clicked '" + e.source.id + "'");
@@ -51,27 +56,6 @@ function Controller() {
         id: "menu"
     });
     $.__views.index.add($.__views.menu);
-    $.__views.viewbuttons = Ti.UI.createView({
-        top: "30",
-        height: "300",
-        layout: "vertical",
-        id: "viewbuttons"
-    });
-    $.__views.menu.add($.__views.viewbuttons);
-    $.__views.distance = Ti.UI.createTextField({
-        id: "distance"
-    });
-    $.__views.viewbuttons.add($.__views.distance);
-    $.__views.search = Ti.UI.createButton({
-        id: "search",
-        title: "busca"
-    });
-    $.__views.viewbuttons.add($.__views.search);
-    try {
-        $.__views.search.addEventListener("click", indexWindow.searchAnuncis);
-    } catch (e) {
-        __defers["$.__views.search!click!indexWindow.searchAnuncis"] = true;
-    }
     $.__views.viewrefreshscrollview = Ti.UI.createView({
         height: "10",
         layout: "horizontal",
@@ -190,6 +174,88 @@ function Controller() {
         id: "description_one"
     });
     $.__views.con.add($.__views.description_one);
+    $.__views.userLabel = Ti.UI.createLabel({
+        id: "userLabel"
+    });
+    $.__views.con.add($.__views.userLabel);
+    try {
+        $.__views.userLabel.addEventListener("click", indexWindow.changeUserData);
+    } catch (e) {
+        __defers["$.__views.userLabel!click!indexWindow.changeUserData"] = true;
+    }
+    $.__views.listRow = Ti.UI.createTableViewRow({
+        height: "107dp",
+        selectionStyle: "NONE",
+        className: "row",
+        showVerticalScrollIndicator: false,
+        objName: "row",
+        id: "listRow"
+    });
+    __alloyId3.push($.__views.listRow);
+    $.__views.rowContainer = Ti.UI.createView({
+        height: "97dp",
+        width: Ti.UI.FILL,
+        top: "10dp",
+        layout: "horizontal",
+        id: "rowContainer"
+    });
+    $.__views.listRow.add($.__views.rowContainer);
+    $.__views.todos = Ti.UI.createView({
+        width: Ti.UI.FILL,
+        left: 0,
+        backgroundColor: "#ffffff",
+        HighlightedColor: "#333333",
+        id: "todos"
+    });
+    $.__views.rowContainer.add($.__views.todos);
+    $.__views.foto = Ti.UI.createView({
+        width: "97dp",
+        left: "0dp",
+        id: "foto"
+    });
+    $.__views.todos.add($.__views.foto);
+    $.__views.profilePic3 = Ti.UI.createImageView({
+        width: Ti.UI.FILL,
+        height: Ti.UI.FILL,
+        image: "/3.jpg",
+        id: "profilePic3"
+    });
+    $.__views.foto.add($.__views.profilePic3);
+    $.__views.totm = Ti.UI.createView({
+        width: Ti.UI.FILL,
+        left: "97dp",
+        id: "totm"
+    });
+    $.__views.todos.add($.__views.totm);
+    $.__views.con = Ti.UI.createView({
+        left: 0,
+        width: "99%",
+        id: "con"
+    });
+    $.__views.totm.add($.__views.con);
+    $.__views.viewbuttons = Ti.UI.createView({
+        width: "300",
+        height: "120",
+        layout: "horitzontal",
+        id: "viewbuttons"
+    });
+    $.__views.con.add($.__views.viewbuttons);
+    $.__views.news = Ti.UI.createView({
+        width: "1%",
+        right: 0,
+        backgroundColor: "#4cd964",
+        id: "news"
+    });
+    $.__views.totm.add($.__views.news);
+    $.__views.grayLine = Ti.UI.createView({
+        height: "1dp",
+        width: Ti.UI.FILL,
+        layout: "horizontal",
+        backgroundColor: "#bcbcbc",
+        top: "106dp",
+        id: "grayLine"
+    });
+    $.__views.listRow.add($.__views.grayLine);
     $.__views.mainList = Ti.UI.createTableView({
         backgroundColor: "#eaeaea",
         separatorStyle: "NONE",
@@ -341,8 +407,7 @@ function Controller() {
     Ti.include("/js/principal.js");
     Ti.include("/js/facebook.js");
     Ti.include("/js/server.js");
-    server._init("192.168.1.10:8080/AppStore");
-    arguments[0] || {};
+    server._init("www.alexmanydev.com/AppStore");
     var buttonRegistre = Titanium.UI.createButton({
         title: "Registra 't",
         top: 10,
@@ -391,7 +456,7 @@ function Controller() {
             win.open();
         },
         getAnuncis: function() {
-            var url = "http://" + indexWindow.ip + "/rest/service/userService/getAnuncis?init=" + indexWindow.init;
+            var url = "http://" + indexWindow.ip + "/rest/service/userService/getAnuncis?init=" + indexWindow.init + "&lat=" + geo.latitude + "&lon=" + geo.longitude;
             var client = Ti.Network.createHTTPClient({
                 onload: function() {
                     Titanium.API.info(this.responseText);
@@ -400,11 +465,11 @@ function Controller() {
                     indexWindow.init = indexWindow.init + 20;
                     indexWindow.createScrollView(jdata);
                 },
-                onerror: function() {
+                onerror: function(e) {
                     Ti.UI.createAlertDialog({
-                        message: "Error en el registre",
+                        message: "Error recuperant Anuncis" + e,
                         ok: "KO",
-                        title: "El registre no s'ha pogut finalitzar"
+                        title: "ERROR"
                     }).show();
                 },
                 timeout: 1e4
@@ -452,21 +517,21 @@ function Controller() {
         _setLastRow: function() {
             var row = Ti.UI.createTableViewRow({
                 id: "listRowTwo",
-                height: "40dp",
+                height: "60dp",
                 selectionStyle: "NONE",
                 className: "listRow"
             });
             var viewRow = Ti.UI.createView({
                 id: "rowContainerTwo",
-                height: "40dp",
+                height: "60dp",
                 width: Ti.UI.FILL,
-                backgroundColor: "#fff",
+                backgroundColor: "#eaeaea",
                 layout: "horizontal"
             });
             var viewTodos = Ti.UI.createView({
                 id: "todos",
                 width: Ti.UI.FILL,
-                backgroundColor: "#ffffff",
+                backgroundColor: "#eaeaea",
                 HighlightedColor: "#333333",
                 left: 0
             });
@@ -647,33 +712,31 @@ function Controller() {
             activity.finish();
         },
         getSearchAnuncis: function() {
-            var longitude = "";
-            var latitude = "";
             Titanium.Geolocation.getCurrentPosition(function(e) {
                 latitude = e.coords.latitude;
                 longitude = e.coords.longitude;
+                indexWindow.searching = true;
+                var url = "http://" + indexWindow.ip + "/rest/service/userService/searchAnuncis?init=" + indexWindow.initSearch + "&distance=" + $.distance.value + "&lat=" + latitude + "&lon=" + longitude;
+                var client = Ti.Network.createHTTPClient({
+                    onload: function() {
+                        Titanium.API.info(this.responseText);
+                        var data = this.responseText;
+                        var jdata = JSON.parse(data);
+                        indexWindow.initSearch = indexWindow.initSearch + jdata.length;
+                        indexWindow.createScrollView(jdata);
+                    },
+                    onerror: function() {
+                        Ti.UI.createAlertDialog({
+                            message: "Error en el registre",
+                            ok: "KO",
+                            title: "El registre no s'ha pogut finalitzar"
+                        }).show();
+                    },
+                    timeout: 1e4
+                });
+                client.open("GET", url);
+                client.send();
             });
-            indexWindow.searching = true;
-            var url = "http://" + indexWindow.ip + "/rest/service/userService/searchAnuncis?init=" + indexWindow.initSearch + "&distance=" + $.distance.value + "&lat=" + latitude + "&lon=" + longitude;
-            var client = Ti.Network.createHTTPClient({
-                onload: function() {
-                    Titanium.API.info(this.responseText);
-                    var data = this.responseText;
-                    var jdata = JSON.parse(data);
-                    indexWindow.initSearch = indexWindow.initSearch + jdata.length;
-                    indexWindow.createScrollView(jdata);
-                },
-                onerror: function() {
-                    Ti.UI.createAlertDialog({
-                        message: "Error en el registre",
-                        ok: "KO",
-                        title: "El registre no s'ha pogut finalitzar"
-                    }).show();
-                },
-                timeout: 1e4
-            });
-            client.open("GET", url);
-            client.send();
         },
         getMapView: function() {
             return Titanium.Map.createView({
@@ -740,21 +803,9 @@ function Controller() {
                 });
             });
         },
-        showhidemenu: function() {
-            if (menuOpen) {
-                moveTo = "0";
-                menuOpen = false;
-            } else {
-                moveTo = "300dp";
-                menuOpen = true;
-            }
-            $.main.width = Ti.Platform.displayCaps.platformWidth;
-            $.main.animate({
-                left: moveTo,
-                duration: 100
-            });
-        }
+        registerDevice: function() {}
     };
+    server.setParent(indexWindow);
     Titanium.Geolocation.purpose = "Recieve ggggUser Location";
     Titanium.Geolocation.accuracy = Titanium.Geolocation.ACCURACY_BEST;
     Titanium.Geolocation.Android.distanceFilter = 10;
@@ -763,10 +814,11 @@ function Controller() {
         indexWindow.geolocationInit();
     });
     utilsDB._init($, mapview);
-    indexWindow._init("192.168.1.10:8080/AppStore");
+    indexWindow._init("www.alexmanydev.com/AppStore");
     $.viewbuttons.add(buttonRegistre);
     $.viewbuttons.add(button);
     utilsDB.addAnunciButton();
+    $.viewrefreshscrollview.hide();
     var loading = false;
     var labelLoading = indexWindow.initLabelLoading();
     var imgLoading = indexWindow.initImageLoading();
@@ -788,9 +840,11 @@ function Controller() {
             indexWindow.numAnuncis++;
             true == indexWindow.searching ? indexWindow.getSearchAnuncis() : indexWindow.getAnuncis();
         }
+        isAndroid && evt.firstVisibleItem > 3 || !isAndroid && evt.contentOffset.y > 200;
     });
-    __defers["$.__views.search!click!indexWindow.searchAnuncis"] && $.__views.search.addEventListener("click", indexWindow.searchAnuncis);
+    require("com.alexmany.gcm");
     __defers["$.__views.refreshscrollview!click!indexWindow.refreshAnuncis"] && $.__views.refreshscrollview.addEventListener("click", indexWindow.refreshAnuncis);
+    __defers["$.__views.userLabel!click!indexWindow.changeUserData"] && $.__views.userLabel.addEventListener("click", indexWindow.changeUserData);
     __defers["$.__views.icone!click!showhidemenu"] && $.__views.icone.addEventListener("click", showhidemenu);
     __defers["$.__views.icone1!click!testclickar"] && $.__views.icone1.addEventListener("click", testclickar);
     __defers["$.__views.icone2!click!testclickare"] && $.__views.icone2.addEventListener("click", testclickare);

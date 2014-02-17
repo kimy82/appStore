@@ -293,7 +293,7 @@ function Controller() {
         width: Ti.UI.FILL
     });
     $.fotosView.add(scrollFotosAnunci);
-    anunci._init("192.168.1.10:8080/AppStore");
+    anunci._init("www.alexmanydev.com/AppStore");
     $.addAnunci.backgroundColor = "#CCCCCC";
     $.saveAnunci.setTitle("guarda");
     $.addFotoFromGaleria.setTitle("add Galeria");

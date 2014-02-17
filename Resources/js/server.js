@@ -41,25 +41,6 @@ var server = {
         client.open("GET", url);
         client.send();
     },
-    saveDeviceId: function(deviceId) {
-        var url = "http://" + server.ip + "/rest/service/userService/saveDeviceId?deviceId=" + deviceId + "&userId=" + server.userID;
-        var client = Ti.Network.createHTTPClient({
-            onload: function() {
-                server.sentNotification();
-            },
-            onerror: function(e) {
-                Ti.API.debug(e.error);
-                Ti.UI.createAlertDialog({
-                    message: "Error en el registre",
-                    ok: "KO",
-                    title: "El registre no s'ha pogut finalitzar" + e.error
-                }).show();
-            },
-            timeout: 9e4
-        });
-        client.open("GET", url);
-        client.send();
-    },
     sentNotification: function() {
         var url = "http://" + server.ip + "/rest/service/userService/sentNotification?userId=" + server.userID;
         var client = Ti.Network.createHTTPClient({
