@@ -79,8 +79,11 @@ var indexWindow = {
     },
     getAnuncis : function() {
  
-        
-                var url = "http://" + indexWindow.ip + "/rest/service/userService/getAnuncis?init=" + indexWindow.init+"&lat="+geo.latitude+"&lon="+geo.longitude;
+         Titanium.Geolocation.getCurrentPosition(function(e) {
+
+                latitude = e.coords.latitude;
+                longitude = e.coords.longitude;
+                var url = "http://" + indexWindow.ip + "/rest/service/userService/getAnuncis?init=" + indexWindow.init+"&lat="+latitude+"&lon="+longitude;
                 var client = Ti.Network.createHTTPClient({
                     // function called when the response data is available
                     onload : function(e) {
@@ -105,7 +108,7 @@ var indexWindow = {
                 // Send the request.
                 client.send();
       
-            
+            });
         
     },
     refreshAnuncis : function() {
@@ -491,8 +494,23 @@ var indexWindow = {
     },
     
  
-    registerDevice : function() {
-        //pushnotifications.pushNotificationsRegister("869481768803", "2525C-EAA3F", {
+    showhidemenu : function(e) {
+       if (!menuOpen) {
+            moveTo = "250dp";
+            menuOpen = true;
+        } else {
+            moveTo = "0";
+            menuOpen = false;        
+        }
+
+        // have to set the current width of the "main" view before moving it so it doesn't get squeezed
+        // try commenting out the following line and setting the "newLeft" to 200 instead of
+        // 300 to see what I mean
+        $.mainContainer.width = Ti.Platform.displayCaps.platformWidth;
+        $.mainContainer.animate({
+            left : moveTo,
+            duration : 100
+        });
 
     },
 };
@@ -510,26 +528,7 @@ Titanium.Geolocation.addEventListener('location', function() {
     indexWindow.geolocationInit();
 
 });
-function showhidemenu (e) {
-        if (!menuOpen) {
-            moveTo = "250dp";
-            menuOpen = true;
-            indexWindow.hideMenuUp();
-        } else {
-            moveTo = "0";
-            menuOpen = false;
-            indexWindow.showMenuUp();
-        }
 
-        // have to set the current width of the "main" view before moving it so it doesn't get squeezed
-        // try commenting out the following line and setting the "newLeft" to 200 instead of
-        // 300 to see what I mean
-        $.mainContainer.width = Ti.Platform.displayCaps.platformWidth;
-        $.mainContainer.animate({
-            left : moveTo,
-            duration : 100
-        });
-};
 //Accions amb la base de dates
 utilsDB._init($, mapview);
 
@@ -608,13 +607,6 @@ $.mainList.addEventListener('scroll', function(evt) {
         } else {
             indexWindow.getAnuncis();
         }
-    }
-
-    if ((isAndroid && (3 < evt.firstVisibleItem ) ) || (!isAndroid && (evt.contentOffset.y > 200))) {
-        // tell our interval (above) to load more rows
-        
-    } else {
-        
     }
 });
 

@@ -25,8 +25,7 @@
 								<View id="con">
 									<Label id="productName_one">TOTES LES CATEGORIES</Label>
 									<Label id="description_one">920 productes</Label>
-																		<Label id="userLabel" class="userLabel" onClick="indexWindow.changeUserData" ></Label>
-
+	                                   <Label id="userLabel" class="userLabel" onClick="indexWindow.changeUserData" ></Label>
 								</View>
 							</View>
 						</View>
@@ -59,7 +58,7 @@
 		<View id="footer">
 				
 				<View class="tbButton">
-					<ImageView id="icone" onClick="showhidemenu"></ImageView>
+					<ImageView id="icone" onClick="indexWindow.showhidemenu"></ImageView>
 					<Label class="text_menu">Menu</Label>
 				</View>
 				<View  class="tbButton">

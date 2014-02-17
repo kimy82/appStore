@@ -23,7 +23,7 @@ var anunci = {
 	},
 	saveAnunciGetCity: function(){			
 		var user =_executionsDB.getUser();	
-		anunci.getCity(geo.latitude,geo.longitude);										
+		anunci.getCity(geo.latitude, geo.longitude);										
 	},
 	save: function(){			
 		var user =_executionsDB.getUser();
@@ -38,7 +38,8 @@ var anunci = {
 									var jdata = JSON.parse(data);
 									if (jdata.ok == 'ok') {		
 										//Actualitza id de l'anunci i mostra missatge
-										anunci.showMessage('Guardat','OK','L\'anunci s\'ha guardat');		
+										anunci.showMessage('Guardat','OK','L\'anunci s\'ha guardat');
+										//anunci.close();
 										anunci.setAnunciId(jdata.id);																																			
 									}else{
 										anunci.showMessage('Error en el registre','KO','L\'anunci no s\'ha guardat');										
@@ -101,6 +102,10 @@ var anunci = {
 					        xhr.setTimeout(10000);
 					        var user =_executionsDB.getUser();
 					        // open the client
+					        var id="null";
+					      
+					            
+					        anunci.showMessage('id'+anunci.id);
 					        xhr.open('POST','http://'+anunci.ipserver+'/rest/service/userService/uploadFoto?idAnunci='+anunci.id+'&idUser='+user.id);
 					 		
 					        // send the data
