@@ -1,6 +1,5 @@
 Ti.include("/js/md5.js");
 Ti.include("/js/principal.js");
-Ti.include("/js/facebook.js");
 Ti.include("/js/server.js");
 server._init("www.alexmanydev.com/AppStore");
 
@@ -13,19 +12,7 @@ var buttonRegistre = Titanium.UI.createButton({
     height : 50,
     id : 'buttonRegistre'
 });
-function testclickar(e){
-	indexWindow.openCreateAccount();
-	
-}
-function testclickare(e){
-	
-	indexWindow.logOut();
-	
-}
-function testclickaren(e){
-	
-	indexWindow.openAddAnunci();
-}
+
 buttonRegistre.addEventListener('click', function(e) {
     indexWindow.openCreateAccount();
 });
@@ -45,7 +32,7 @@ buttonLogout.addEventListener('click', function(e) {
 });
 //////////////////
 
-principal._init($, buttonRegistre, button, buttonLogout);
+principal._init($);
 
 Ti.include("/js/dataBase.js");
 Ti.include("/js/network.js");
@@ -74,6 +61,14 @@ var indexWindow = {
         var win = Alloy.createController('createAccount', {
             parent : $,
             map : mapview
+        }).getView();
+        win.open();
+    },
+    openGlobalRegistre : function() {
+
+        var win = Alloy.createController('globalRegistre', {
+            parent : $,
+            indexWindow : indexWindow
         }).getView();
         win.open();
     },
@@ -491,10 +486,7 @@ var indexWindow = {
 
             });
         });
-
     },
-    
- 
     showhidemenu : function(e) {
        if (!menuOpen) {
             moveTo = "250dp";
@@ -530,27 +522,19 @@ Titanium.Geolocation.addEventListener('location', function() {
 
 });
 
-//Accions amb la base de dates
-utilsDB._init($, mapview);
-
 //Inicialitzem el server i el controlador de la pantalla
 indexWindow._init("www.alexmanydev.com/AppStore");
+//Accions amb la base de dates
+utilsDB._init($, mapview,indexWindow);
 
-//Afegim buton de registre
-$.viewbuttons.add(buttonRegistre);
 
-//Button del facebook
-$.viewbuttons.add(button);
 
 //Si l'usuari esta logat posem boton per penjar anuncis i treiem els de registre
-utilsDB.addAnunciButton();
+utilsDB.configureIndex();
+
 
 //Boto hidden que s'utilitza per refrescar el llistat d'anuncis
 $.viewrefreshscrollview.hide();
-
-function testclick() {
-    alert("er");
-}
 
 //codi per el control de l'scroll quan arribem al final carrega més anuncis
 //inidica si esta carrregant imatges
@@ -576,16 +560,7 @@ indexWindow.getAnuncis();
 var isAndroid = Ti.Platform.osname === 'android';
 //Afegim listener a l'scroll per al final cargar mes anuncis
 
-function testclick(e) {
-    alert('Clicked ' + '\'' + e.source.id + '\'');
-}
-function testclick(e) {
-    alert('Clicked ' + '\'' + e.source.id + '\'');
-}
 
-function doClick(e) {
-    alert($.label.text);
-}
 
 var menuOpen = false;
 

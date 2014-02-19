@@ -1,83 +1,99 @@
 <Alloy>
-	<Window class="container" >		
+	<Window class="container" >
 		<View id="menu">
-					
 		</View>
 		<View  height="10" layout="horizontal" top="0"  id="viewrefreshscrollview" >
-			<Button id="refreshscrollview" onClick="indexWindow.refreshAnuncis"></Button>
+			<Button id="refreshscrollview" onClick="indexWindow.refreshAnuncis">
+			</Button>
 		</View>
 		<View  id="mainContainer">
-		<View id="main">
-			<View id="header">
-				<View id="int_header">
-						<ImageView id="logo"></ImageView>
+			<View id="main">
+				<View id="header">
+					<View id="int_header">
+						<ImageView id="logo">
+						</ImageView>
+					</View>
 				</View>
-		</View>
-			<TableView  id="mainList">	
-							
-				<TableViewRow id="listRow_One">
-					<View id="rowContainer_one">
-						
-						<View id="todos">
-							<View id="foto_one">
-							</View>
-							<View id="totm">
-								<View id="con">
-									<Label id="productName_one">TOTES LES CATEGORIES</Label>
-									<Label id="description_one">920 productes</Label>
-	                                   <Label id="userLabel" class="userLabel" onClick="indexWindow.changeUserData" ></Label>
+				<TableView  id="mainList">
+					<TableViewRow id="listRow_One">
+						<View id="rowContainer_one">
+							<View id="todos">
+								<View id="foto_one">
+								</View>
+								<View id="totm">
+									<View id="con">
+										<Label id="productName_one">
+											TOTES LES CATEGORIES
+										</Label>
+										<Label id="description_one">
+											920 productes
+										</Label>
+										<Label id="userLabel" class="userLabel" onClick="indexWindow.changeUserData" >
+										</Label>
+									</View>
 								</View>
 							</View>
 						</View>
-					</View>
-				</TableViewRow>
-				<TableViewRow id="listRow">
-					<View id="rowContainer">
-						<View id="todos">
-							<View id="foto">
-								<ImageView id="profilePic3"></ImageView>
-							</View>
-							<View id="totm">
-								<View id="con">
-
-									<View width="300" height="120" layout="horitzontal" id="viewbuttons" >
-									</View>	
+					</TableViewRow>
+					<TableViewRow id="listRow">
+						<View id="rowContainer">
+							<View id="todos">
+								<View id="foto">
+									<ImageView id="profilePic3">
+									</ImageView>
 								</View>
-								<View id="news"></View>
+								<View id="totm">
+									<View id="con">
+										<View width="300" height="120" layout="horitzontal" id="viewbuttons" >
+										</View>
+									</View>
+									<View id="news">
+									</View>
+								</View>
 							</View>
-							
-							
 						</View>
-					</View>
-					<View id="grayLine" ></View>
-				</TableViewRow>
-			</TableView>
-		</View>
-			
-			
-		<View id="footer">
-				
+						<View id="grayLine" >
+						</View>
+					</TableViewRow>
+				</TableView>
+			</View>
+			<View id="footer">
 				<View class="tbButton">
-					<ImageView id="icone" onClick="indexWindow.showhidemenu"></ImageView>
-					<Label class="text_menu">Menu</Label>
+					<ImageView id="icone" onClick="indexWindow.showhidemenu">
+					</ImageView>
+					<Label class="text_menu">
+						Menu
+					</Label>
 				</View>
 				<View  class="tbButton">
-					<ImageView id="icone1" onClick="testclickar"></ImageView>
-					<Label class="text_menu">Conta</Label>
+					<ImageView id="icone1">
+					</ImageView>
+					<Label class="text_menu">
+						Conta
+					</Label>
 				</View>
 				<View  class="tbButton">
-					<ImageView id="icone2" onClick="testclickare"></ImageView>
-					<Label class="text_menu">Chat</Label>
+					<ImageView id="icone2">
+					</ImageView>
+					<Label class="text_menu">
+						Chat
+					</Label>
 				</View>
 				<View  class="tbButton">
-					<ImageView id="icone3" onClick="testclickaren"></ImageView>
-					<Label class="text_menu">Vendre</Label>
+					<ImageView id="icone3" >
+					</ImageView>
+					<Label class="text_menu">
+						Vendre
+					</Label>
 				</View>
 				<View  class="tbButton">
-					<ImageView id="icone4" onClick="testclick"></ImageView>
-					<Label class="text_menu">Cerca</Label>
+					<ImageView id="icone4" >
+					</ImageView>
+					<Label class="text_menu">
+						Cerca
+					</Label>
 				</View>
 			</View>
-	</View>
+		</View>
 	</Window>
 </Alloy>
