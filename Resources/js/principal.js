@@ -14,5 +14,14 @@ var principal = {
         principal.win.viewbuttons.remove(principal.buttonRegistre);
         principal.win.viewbuttons.remove(principal.buttonFacebook);
         principal.win.viewbuttons.add(principal.buttonLogout);
+    },
+    retallaString: function(text) {
+        try {
+            var newText = text;
+            text.length > 30 && (newText = text.substring(0, 30));
+            return newText;
+        } catch (error) {
+            return text;
+        }
     }
 };
