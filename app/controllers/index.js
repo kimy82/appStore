@@ -300,6 +300,7 @@ var indexWindow = {
             });
             var labeldescripcio = Ti.UI.createLabel({
                 top : 33,
+                text: principal.retallaString(json[intImage].descripcio),
                 left : 10,
                 color : "#8e8e93",
                 font : {
