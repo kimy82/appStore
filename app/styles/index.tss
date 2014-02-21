@@ -9,7 +9,7 @@
 	width: Ti.UI.FILL,
 	backgroundColor: "#333333",
 	left: 0,
-	
+	zIndex:'4',
 },
 //view wrapper conte el header i el footer
 "#main":{
@@ -29,18 +29,30 @@
 	right: 0, 
 	left: 0,
 	layout:"horitzontal",
-	zIndex:11,
+	zIndex:'19',
 	
 },
+"#mainContainer":{
+	zIndex:'20'
+}
 "#logo":{
 	image:"/logo.png",
-	height:'25dp',
-	left:'10dp',
+	width:'145dp',
+	left:'0dp',
 },
 "#int_header":{
-	width:Ti.UI.FILL,
-	height:"50dp",
-	
+	width:'195dp',
+	left:'10dp',
+},
+"#int_header_slide":{
+	width:'50dp',
+	height:'50dp',
+	right:"0dp"
+},
+"#slid":{
+	image:"/local.png",
+	height:'30dp',
+	right:'10dp',
 },
 "#categories":{
 	color: "white",
@@ -165,15 +177,15 @@
 	height: Ti.UI.SIZE,
 },
 "#productName_one":{
-	top: 5,
-	left: 10,
+	top: '5dp',
+	left: '10dp',
 	color: "#7f7f7f",
 	font: {fontSize: "18dp", fontFamily: "RobotoCondensed-Bold"}
 },
 //Descripcio del producte
 "#description_one":{
-	top: 33,
-	left: 10 ,
+	top: '25dp',
+	left: '10dp' ,
 	color: "#7f7f7f",
 	font: {
 		fontSize : "14dp",
@@ -332,4 +344,49 @@
 	height: "40dp",
 	selectionStyle: "NONE",
 	className:"listRow"
+},
+"#distancia_text":{
+	width: Ti.UI.FILL,
+	zIndex:'10',
+	height:'30dp',
+	backgroundColor:"#eaa213",
+	top:'0dp'
+},
+"#check":{
+	backgroundImage:"/check.png",
+	backgroundSelectedImage:"/check_sel.png",
+	width:'60dp',
+	height:'60dp',
+	left:'0dp'
+},
+"#distancia":{
+	width: Ti.UI.FILL,
+	height:'60dp',
+	backgroundColor:"#333333",
+	top:'30dp'
+},
+"#dis":{
+	color: "#ffffff",
+	font: {fontSize: "14dp", fontFamily: "Roboto-Light"}
+},
+"#content_anim":{
+	zIndex:'5',
+	height:'90dp',
+	width: Ti.UI.FILL,
+	top:'0dp',
+},
+"#slider_control":{
+		min:0,
+		max:100,
+		value:0,
+		width:'230dp',
+		height:'auto',
+		right:'10dp'
+},
+"#scrollView": {
+	layout:"vertical",
+	width:Ti.UI.FILL,
+	height:Ti.UI.FILL,
+	showVerticalScrollIndicator: true,
+	scrollType: "vertical"
 }

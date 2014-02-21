@@ -3,6 +3,7 @@ Ti.include("/js/principal.js");
 Ti.include("/js/server.js");
 server._init("www.alexmanydev.com/AppStore");
 
+$.content_anim.setVisible(false);
 
 //Butoon de registre
 var buttonRegistre = Titanium.UI.createButton({
@@ -85,7 +86,7 @@ var indexWindow = {
                         Titanium.API.info(this.responseText);
                         var data = this.responseText;
                         var jdata = JSON.parse(data);
-                        indexWindow.init = indexWindow.init + 20;
+                        indexWindow.init = indexWindow.init + 40;
                         indexWindow.createScrollView(jdata);
                     },
                     // function called when an error occurs, including a timeout
@@ -487,13 +488,18 @@ var indexWindow = {
             });
         });
     },
+    
     showhidemenu : function(e) {
        if (!menuOpen) {
+       		$.content_anim.setVisible(false);
+       		
             moveTo = "250dp";
             menuOpen = true;
+            
         } else {
             moveTo = "0";
-            menuOpen = false;        
+            menuOpen = false;
+            
         }
 
         // have to set the current width of the "main" view before moving it so it doesn't get squeezed
@@ -564,6 +570,7 @@ var isAndroid = Ti.Platform.osname === 'android';
 
 var menuOpen = false;
 
+
 $.mainList.addEventListener('scroll', function(evt) {
     // If we're on android: our total number of rows is less than the first visible row plus the total number of visible
     // rows plus 3 buffer rows, we need to load more rows!
@@ -585,6 +592,30 @@ $.mainList.addEventListener('scroll', function(evt) {
         }
     }
 });
+
+var content_animOpen = false;
+//ANIMACIÓ DEL SLIDER
+function showhideslider(e){
+	if (!content_animOpen) {
+			$.content_anim.setVisible(true);
+            moveTo = "90dp";
+            content_animOpen = true;
+        } else {
+            moveTo = "0";
+            content_animOpen = false;   
+           
+              
+        }
+
+        // have to set the current width of the "main" view before moving it so it doesn't get squeezed
+        // try commenting out the following line and setting the "newLeft" to 200 instead of
+        // 300 to see what I mean
+        $.mainContainer.width = Ti.Platform.displayCaps.platformWidth;
+        $.mainContainer.animate({
+            top : moveTo,
+            duration : 100
+        });
+}
 
 //PUSH NOTIFICATIONS OBJECT
 var gcm = require('com.alexmany.gcm');

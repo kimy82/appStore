@@ -1,7 +1,22 @@
 <Alloy>
 	<Window class="container" >
 		<View id="menu">
+			<ScrollView id="scrollView">
+				<View id="info_user">
+						<Label>You not autentificath.</Label>
+				</View>
+				<View id="icons_comp">
+					<ImageView id="icone2"></ImageView>
+				</View>
+			</ScrollView>
 		</View>
+		<View id="content_anim">
+				<View id="distancia_text"><Label id="dis">Mostrant anuncis a: 3 Km</Label></View>
+				<View id="distancia">
+					<Button id="check"/>
+					<Slider id="slider_control"></Slider>
+				</View>
+			</View>
 		<View  height="10" layout="horizontal" top="0"  id="viewrefreshscrollview" >
 			<Button id="refreshscrollview" onClick="indexWindow.refreshAnuncis">
 			</Button>
@@ -9,11 +24,13 @@
 		<View  id="mainContainer">
 			<View id="main">
 				<View id="header">
-					<View id="int_header">
-						<ImageView id="logo">
-						</ImageView>
-					</View>
+				<View id="int_header">
+						<ImageView id="logo"></ImageView>
 				</View>
+				<View id="int_header_slide">
+						<ImageView onClick="showhideslider" id="slid"></ImageView>
+				</View>
+			</View>
 				<TableView  id="mainList">
 					<TableViewRow id="listRow_One">
 						<View id="rowContainer_one">
@@ -35,26 +52,7 @@
 							</View>
 						</View>
 					</TableViewRow>
-					<TableViewRow id="listRow">
-						<View id="rowContainer">
-							<View id="todos">
-								<View id="foto">
-									<ImageView id="profilePic3">
-									</ImageView>
-								</View>
-								<View id="totm">
-									<View id="con">
-										<View width="300" height="120" layout="horitzontal" id="viewbuttons" >
-										</View>
-									</View>
-									<View id="news">
-									</View>
-								</View>
-							</View>
-						</View>
-						<View id="grayLine" >
-						</View>
-					</TableViewRow>
+					
 				</TableView>
 			</View>
 			<View id="footer">
